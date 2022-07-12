@@ -1,9 +1,10 @@
 from django.shortcuts import render
+from product.models import *
 
 
 def index(request):
     # setting = Setting.objects.get(pk=1)
-    # category = Category.objects.all()
+    category = Category.objects.all()
     # product_featured = Product.objects.all().order_by('?')[:16]
     # product_best_seller = Product.objects.all().order_by('id')[:6]
     # product_popular = Product.objects.all().order_by('id')[:6]
@@ -16,10 +17,10 @@ def index(request):
     #
     # page = "home"
     #
-    # context = {
+    context = {
     #     'page': page,
     #     'setting': setting,
-    #     'category': category,
+        'category': category,
     #     'product_featured': product_featured,
     #     'product_best_seller': product_best_seller,
     #     'product_popular': product_popular,
@@ -29,5 +30,5 @@ def index(request):
     #     'product_featured_item': product_featured_item,
     #     'special_offer': special_offer,
     #     'best_bottom': best_bottom,
-    # }
-    return render(request, 'index.html')
+    }
+    return render(request, 'index.html', context)
