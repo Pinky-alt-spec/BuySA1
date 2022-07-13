@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from home import views
+from order import views as OrderViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,12 +27,15 @@ urlpatterns = [
     path('', include('home.urls')),
     path('home/', include('home.urls')),
     path('product/', include('product.urls')),
+    path('order/', include('order.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 
+    path('search/', views.search, name='search'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
 
     path('category/<int:id>/<slug:slug>', views.category_products, name='category_products'),
+    path('product/<int:id>/<slug:slug>', views.product_details, name='product_details'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

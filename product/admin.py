@@ -58,6 +58,14 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['subject', 'comment', 'status', 'create_at']
+    list_filter = ['status']
+    readonly_fields = ('subject', 'comment', 'ip', 'product', 'user', 'rate')
+
+
 admin.site.register(Category, CategoryAdmin2)
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Comment, CommentAdmin)
 admin.site.register(Images)
+

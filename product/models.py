@@ -1,4 +1,6 @@
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.contrib.auth.models import User
+from django.forms import ModelForm
 from django.utils.safestring import mark_safe
 from django.urls import reverse
 from django.db import models
@@ -90,8 +92,6 @@ class Product(models.Model):
         return reverse('category_detail', kwargs={'slug': self.slug})
 
 
-#
-#
 class Images(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=50, blank=True)
@@ -106,3 +106,29 @@ class Images(models.Model):
         return ''
 
     image_tag.short_description = 'Image'
+
+
+class Comment(models.Model):
+    STATUS = (
+        ('New', 'New'),
+        ('True', 'True'),
+        ('False', 'False'),
+    )
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=50, blank=True)
+    comment = models.TextField(max_length=250, blank=True)
+    rate = models.IntegerField(default=5)
+    status = models.CharField(max_length=10, choices=STATUS, default='New')
+    ip = models.CharField(max_length=20, blank=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.subject
+
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['subject', 'comment', 'rate']

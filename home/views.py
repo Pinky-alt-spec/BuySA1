@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from home.forms import SearchForm
 from product.models import *
 from home.models import *
 
@@ -80,3 +81,39 @@ def category_products(request, id, slug):
         'products': products,
     }
     return render(request, 'category_products.html', context)
+
+
+def search(request):
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            catid = form.cleaned_data['catid']
+            if catid == 0:
+                products = Product.objects.filter(title__icontains=query)
+            else:
+                products = Product.objects.filter(title__icontains=query, category_id=catid)
+
+            category = Category.objects.all()
+
+            context = {
+                'products': products,
+                'query': query,
+                'category': category,
+            }
+            return render(request, 'search_products.html', context)
+
+    return HttpResponseRedirect('/')
+
+
+def product_details(request, id, slug):
+    category = Category.objects.all()
+    product = Product.objects.get(pk=id)
+    images = Images.objects.filter(product_id=id)
+
+    context = {
+        'category': category,
+        'product': product,
+        'images': images,
+    }
+    return render(request, 'product_details.html', context)
