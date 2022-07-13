@@ -12,12 +12,11 @@ def index(request):
     product_best_seller = Product.objects.all().order_by('id')[:6]
     singleproduct = Product.objects.all().order_by('id')[:1]
     product_popular = Product.objects.all().order_by('id')[:6]
-    # product_new_arrival = Product.objects.all().order_by('-id')[:16]
-    # product_top_related = Product.objects.all().order_by('?')[:9]
-    # bottom_product_top_related = Product.objects.all().order_by('?')[:3]
-    # product_featured_item = Product.objects.all().order_by('-id')[:1]
-    # special_offer = Product.objects.all().order_by('id')[:3]
-    # best_bottom = Product.objects.all().order_by('?')[:3]
+    product_new_arrival = Product.objects.all().order_by('-id')[:16]
+    product_top_related = Product.objects.all().order_by('?')[:3]
+    special_offer = Product.objects.all().order_by('?')[:3]
+    best_bottom = Product.objects.all().order_by('?')[:3]
+    product_featured_item = Product.objects.all().order_by('-id')[:1]
 
     page = "home"
 
@@ -29,12 +28,12 @@ def index(request):
         'product_best_seller': product_best_seller,
         'singleproduct': singleproduct,
         'product_popular': product_popular,
-        # 'product_new_arrival': product_new_arrival,
-        # 'product_top_related': product_top_related,
-        # 'bottom_product_top_related': bottom_product_top_related,
-        # 'product_featured_item': product_featured_item,
-        # 'special_offer': special_offer,
-        # 'best_bottom': best_bottom,
+        'product_new_arrival': product_new_arrival,
+        'product_top_related': product_top_related,
+        'special_offer': special_offer,
+        'best_bottom': best_bottom,
+        'product_featured_item': product_featured_item,
+
     }
     return render(request, 'index.html', context)
 
