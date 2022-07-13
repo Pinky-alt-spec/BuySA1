@@ -456,13 +456,6 @@
                     </div>
                 </div>
             </div>
-            {% if messages %}
-                  {% for message in messages %}
-                      <div class="alert alert-{{ message.tags }}" role="alert">
-                          {{ message }}
-                      </div>
-                  {% endfor %}
-            {% endif %}
         </header>
 <!-- mobile site__header / end -->
 
@@ -676,6 +669,13 @@
                 <div class="site-header__phone-number">(800) 060-0730</div>
             </div>
         </div>
+        {% if messages %}
+              {% for message in messages %}
+                  <div class="alert alert-{{ message.tags }}" role="alert">
+                      {{ message }}
+                  </div>
+              {% endfor %}
+        {% endif %}
 
     </div>
 </header>

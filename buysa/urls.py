@@ -30,9 +30,10 @@ urlpatterns = [
     path('order/', include('order.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 
-    path('search/', views.search, name='search'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
+    path('search/', views.search, name='search'),
+    path('shopcart/', OrderViews.shopcart, name='shopcart'),
 
     path('category/<int:id>/<slug:slug>', views.category_products, name='category_products'),
     path('product/<int:id>/<slug:slug>', views.product_details, name='product_details'),

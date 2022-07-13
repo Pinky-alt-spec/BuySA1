@@ -70,4 +70,4 @@ def shopcart(request):
         'shopcart': shopcart,
         'total': total,
     }
-    return render(request, 'shop/shopcart_products.html', context)
+    return render(request, 'shopcart_products.html', context)
