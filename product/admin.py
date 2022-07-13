@@ -45,13 +45,19 @@ class CategoryAdmin2(DraggableMPTTAdmin):
     related_products_cumulative_count.short_description = 'Related products (in tree)'
 
 
+class ProductImageInline(admin.TabularInline):
+    model = Images
+    extra = 5
+
+
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'status']
+    list_display = ['title', 'category', 'status', 'image_tag']
     list_filter = ['category']
-    # categoryreadonly_fields = ('image_tag',)
-    # inlines = [ProductImageInline]
+    readonly_fields = ('image_tag',)
+    inlines = [ProductImageInline]
     prepopulated_fields = {'slug': ('title',)}
 
 
 admin.site.register(Category, CategoryAdmin2)
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Images)
