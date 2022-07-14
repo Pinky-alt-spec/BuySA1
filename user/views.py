@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from product.models import Category
+from user.forms import RegisterForm
 from user.models import UserProfile
 
 
@@ -36,10 +37,25 @@ def login_form(request):
 
 
 def register_form(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return HttpResponseRedirect('/')
+        else:
+            messages.warning(request, form.errors)
+            return HttpResponseRedirect('/register')
+
+    form = RegisterForm()
     category = Category.objects.all()
 
     context = {
-        'category': category
+        'category': category,
+        'form': form,
     }
     return render(request, 'login_form.html', context)
 

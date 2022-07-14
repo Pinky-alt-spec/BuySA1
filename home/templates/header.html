@@ -481,7 +481,8 @@
                     <div class="topbar__item">
                         <div class="topbar-dropdown">
                             {% if user.id is not None %}
-                            <img src="{{ request.session.userimage }}" style="height: 25px; margin-top: 5px; border-radius: 25%"><button class="topbar-dropdown__btn" type="button">{{ user.first_name }}
+                            <img src="{{ request.session.userimage }}" style="height: 25px; margin-top: 3px; border-radius: 25%">
+                            <button class="topbar-dropdown__btn" type="button">Admin
                                 <svg width="7px" height="5px">
                                     <use xlink:href="static/images/sprite.svg#arrow-rounded-down-7x5"></use>
                                 </svg>
