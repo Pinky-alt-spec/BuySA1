@@ -20,6 +20,7 @@ from django.urls import path, include
 
 from home import views
 from order import views as OrderViews
+from user import views as UserViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,12 +29,17 @@ urlpatterns = [
     path('home/', include('home.urls')),
     path('product/', include('product.urls')),
     path('order/', include('order.urls')),
+    path('user/', include('user.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     path('search/', views.search, name='search'),
+
     path('shopcart/', OrderViews.shopcart, name='shopcart'),
+    path('register/', UserViews.register_form, name='register_form'),
+    path('login/', UserViews.login_form, name='login_form'),
+    path('logout/', UserViews.logout_func, name='logout_func'),
 
     path('category/<int:id>/<slug:slug>', views.category_products, name='category_products'),
     path('product/<int:id>/<slug:slug>', views.product_details, name='product_details'),

@@ -17,7 +17,7 @@
                     <div class="page-header__breadcrumb">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a> <svg class="breadcrumb-arrow"
+                                <li class="breadcrumb-item"><a href="/">Home</a> <svg class="breadcrumb-arrow"
                                         width="6px" height="9px">
                                         <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
                                     </svg></li>
@@ -98,7 +98,7 @@
                                         <thead class="cart__totals-header">
                                             <tr>
                                                 <th>Subtotal</th>
-                                                <td>$5,877.00</td>
+                                                <td>${{ total }}</td>
                                             </tr>
                                         </thead>
                                         <tbody class="cart__totals-body">
@@ -116,7 +116,7 @@
                                         <tfoot class="cart__totals-footer">
                                             <tr>
                                                 <th>Total</th>
-                                                <td>$5,902.00</td>
+                                                <td>${{ total }}</td>
                                             </tr>
                                         </tfoot>
                                     </table><a class="btn btn-primary btn-xl btn-block cart__checkout-button"

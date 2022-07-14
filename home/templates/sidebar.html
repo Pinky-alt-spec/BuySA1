@@ -1013,45 +1013,57 @@
                                     </div><!-- .dropcart / end -->
                                 </div>
                             </div>
-                            <div class="indicator indicator--trigger--click"><a href="account-login.html"
+                            <div class="indicator indicator--trigger--click"><a href="/login"
                                     class="indicator__button">
                                 <span class="indicator__area">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="M13.7,10.7C15.1,9.6,16,7.9,16,6c0-3.3-2.7-6-6-6S4,2.7,4,6c0,1.9,0.9,3.6,2.3,4.7C2.6,12.2,0,15.8,0,20h2c0-4.4,3.6-8,8-8 s8,3.6,8,8h2C20,15.8,17.4,12.2,13.7,10.7z M6,6c0-2.2,1.8-4,4-4s4,1.8,4,4c0,2.2-1.8,4-4,4S6,8.2,6,6z"></path></svg>
                                 </span></a>
                                 <div class="indicator__dropdown">
                                     <div class="account-menu">
-                                        <form class="account-menu__form">
+
+                                        {% if not user.id is not None %}
+                                        <form class="account-menu__form" action="" method="post">
+                                        {% csrf_token %}
                                             <div class="account-menu__form-title">Log In to Your Account</div>
-                                            <div class="form-group"><label for="header-signin-email"
-                                                    class="sr-only">Email address</label> <input
-                                                    id="header-signin-email" type="email"
-                                                    class="form-control form-control-sm"
-                                                    placeholder="Email address"></div>
-                                            <div class="form-group"><label for="header-signin-password"
-                                                    class="sr-only">Password</label>
-                                                <div class="account-menu__form-forgot"><input
-                                                        id="header-signin-password" type="password"
-                                                        class="form-control form-control-sm"
-                                                        placeholder="Password"> <a href=""
-                                                        class="account-menu__form-forgot-link">Forgot?</a></div>
+                                            {% if messages %}
+                                                  {% for message in messages %}
+                                                      <div class="alert alert-{{ message.tags }}" role="alert">
+                                                          {{ message }}
+                                                      </div>
+                                                  {% endfor %}
+                                            {% endif %}
+                                            <div class="form-group">
+                                                <label for="header-signin-email" class="sr-only">Username</label>
+                                                <input name="username" id="header-signin-email" type="text" class="form-control form-control-sm" placeholder="Username">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="header-signin-password" class="sr-only">Password</label>
+                                                <div class="account-menu__form-forgot">
+                                                    <input name="password" id="header-signin-password" type="password" class="form-control form-control-sm" placeholder="Password">
+                                                    <a href="" class="account-menu__form-forgot-link">Forgot?</a>
+                                                </div>
                                             </div>
                                             <div class="form-group account-menu__form-button"><button
                                                     type="submit" class="btn btn-primary btn-sm">Login</button>
                                             </div>
-                                            <div class="account-menu__form-link"><a
-                                                    href="account-login.html">Create An Account</a></div>
+                                            <div class="account-menu__form-link">
+                                                <a href="/register">Create An Account</a>
+                                            </div>
                                         </form>
-                                        <div class="account-menu__divider"></div><a
-                                            href="account-dashboard.html" class="account-menu__user">
-                                            <div class="account-menu__user-avatar"><img
-                                                    src="static/images/avatars/avatar-3.jpg" alt=""></div>
+                                        {% else %}
+                                        <div class="account-menu__divider"></div>
+                                        <a href="account-dashboard.html" class="account-menu__user">
+                                            <div class="account-menu__user-avatar">
+                                                <img src="{{ request.session.userimage }}" alt="">
+                                            </div>
                                             <div class="account-menu__user-info">
                                                 <div class="account-menu__user-name">Helena Garcia</div>
-                                                <div class="account-menu__user-email">stroyka@example.com</div>
+                                                <div class="account-menu__user-email">{{ user.email }}</div>
                                             </div>
                                         </a>
                                         <div class="account-menu__divider"></div>
                                         <ul class="account-menu__links">
+                                            <li><a href="account-dashboard.html">Dashboard</a></li>
                                             <li><a href="account-profile.html">Edit Profile</a></li>
                                             <li><a href="account-orders.html">Order History</a></li>
                                             <li><a href="account-addresses.html">Addresses</a></li>
@@ -1059,8 +1071,9 @@
                                         </ul>
                                         <div class="account-menu__divider"></div>
                                         <ul class="account-menu__links">
-                                            <li><a href="account-login.html">Logout</a></li>
+                                            <li><a href="/logout">Logout</a></li>
                                         </ul>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

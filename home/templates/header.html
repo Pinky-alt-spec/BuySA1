@@ -446,7 +446,7 @@
                                                 height="20px">
                                                 <use xlink:href="static/images/sprite.svg#heart-20"></use>
                                             </svg> <span class="indicator__value">0</span></span></a></div>
-                                <div class="indicator indicator--mobile"><a href="cart.html"
+                                <div class="indicator indicator--mobile"><a href="/shopcart/"
                                         class="indicator__button"><span class="indicator__area"><svg width="20px"
                                                 height="20px">
                                                 <use xlink:href="static/images/sprite.svg#cart-20"></use>
@@ -479,50 +479,49 @@
                             href="blog-classic.html">Blog</a></div>
                     <div class="topbar__spring"></div>
                     <div class="topbar__item">
-                        <div class="topbar-dropdown"><button class="topbar-dropdown__btn" type="button">My
-                                Account <svg width="7px" height="5px">
+                        <div class="topbar-dropdown">
+                            {% if user.id is not None %}
+                            <img src="{{ request.session.userimage }}" style="height: 25px; margin-top: 5px; border-radius: 25%"><button class="topbar-dropdown__btn" type="button">{{ user.first_name }}
+                                <svg width="7px" height="5px">
                                     <use xlink:href="static/images/sprite.svg#arrow-rounded-down-7x5"></use>
-                                </svg></button>
+                                </svg>
+                            </button>
+                            {% else %}
+                            <button class="topbar-dropdown__btn" type="button">My Account
+                                <svg width="7px" height="5px">
+                                    <use xlink:href="static/images/sprite.svg#arrow-rounded-down-7x5"></use>
+                                </svg>
+                            </button>
+                            {% endif %}
                             <div class="topbar-dropdown__body">
                                 <!-- .menu -->
                                 <div class="menu menu--layout--topbar">
                                     <div class="menu__submenus-container"></div>
                                     <ul class="menu__list">
+                                        {% if not user.id is not None %}
                                         <li class="menu__item">
                                             <!-- This is a synthetic element that allows to adjust the vertical offset of the submenu using CSS. -->
                                             <div class="menu__item-submenu-offset"></div><a
-                                                class="menu__item-link"
-                                                href="account-dashboard.html">Dashboard</a>
+                                                class="menu__item-link" href="/register">Register</a>
                                         </li>
                                         <li class="menu__item">
                                             <!-- This is a synthetic element that allows to adjust the vertical offset of the submenu using CSS. -->
                                             <div class="menu__item-submenu-offset"></div><a
-                                                class="menu__item-link" href="account-profile.html">Edit
-                                                Profile</a>
+                                                class="menu__item-link" href="/login">Login</a>
                                         </li>
+                                        {% else %}
                                         <li class="menu__item">
                                             <!-- This is a synthetic element that allows to adjust the vertical offset of the submenu using CSS. -->
                                             <div class="menu__item-submenu-offset"></div><a
-                                                class="menu__item-link" href="account-orders.html">Order
-                                                History</a>
-                                        </li>
-                                        <li class="menu__item">
-                                            <!-- This is a synthetic element that allows to adjust the vertical offset of the submenu using CSS. -->
-                                            <div class="menu__item-submenu-offset"></div><a
-                                                class="menu__item-link"
-                                                href="account-addresses.html">Addresses</a>
+                                                class="menu__item-link" href="account-orders.html">Dashboard</a>
                                         </li>
                                         <li class="menu__item">
                                             <!-- This is a synthetic element that allows to adjust the vertical offset of the submenu using CSS. -->
                                             <div class="menu__item-submenu-offset"></div><a
                                                 class="menu__item-link"
-                                                href="account-password.html">Password</a>
+                                                href="/logout">Logout</a>
                                         </li>
-                                        <li class="menu__item">
-                                            <!-- This is a synthetic element that allows to adjust the vertical offset of the submenu using CSS. -->
-                                            <div class="menu__item-submenu-offset"></div><a
-                                                class="menu__item-link" href="account-login.html">Logout</a>
-                                        </li>
+                                        {% endif %}
                                     </ul>
                                 </div><!-- .menu / end -->
                             </div>

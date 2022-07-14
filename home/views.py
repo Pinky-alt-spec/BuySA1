@@ -1,9 +1,11 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from home.forms import SearchForm
 from product.models import *
 from home.models import *
+from user.models import UserProfile
 
 
 def index(request):
