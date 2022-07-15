@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} {{ user.first_name }} Profile Update {% endblock %}
+{% block description %} {{ setting.description }} {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+{% block footer %} {% include 'footer.html' %} {% endblock %}
+
+{% block content %}
+<!-- site__body -->
+<div class="site__body" xmlns="http://www.w3.org/1999/html">
+    <div class="page-header">
+        <div class="page-header__container container">
+            <div class="page-header__breadcrumb">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a> <svg class="breadcrumb-arrow"
+                                width="6px" height="9px">
+                                <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
+                            </svg></li>
+                        <li class="breadcrumb-item"><a href="">Breadcrumb</a> <svg class="breadcrumb-arrow"
+                                width="6px" height="9px">
+                                <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
+                            </svg></li>
+                        <li class="breadcrumb-item active" aria-current="page">Profile Update</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="page-header__title">
+                <h1>Profile Update</h1>
+            </div>
+        </div>
+    </div>
+    <div class="block">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 d-flex">
+                    {% include 'user_panel.html' %}
+                </div>
+                <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Edit Profile</h5>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-body">
+                            <div class="row no-gutters">
+                                <form method="post" enctype= multipart/form-data>
+                                    {% csrf_token %}
+                                    <fieldset class="form-group">
+
+                                        {{ user_form.as_p }}
+                                        {{ profile_form.as_p }}
+                                    </fieldset>
+                                    <div class="form-group mt-5 mb-0">
+                                        <button class="btn btn-primary">Save</button>
+                                    </div>
+
+<!--                                    <div class="col-12 col-lg-7 col-xl-6">-->
+<!--                                        <div class="form-group"><label for="profile-first-name">First Name</label>-->
+<!--                                            <input type="text" class="form-control" id="profile-first-name" placeholder="First Name">-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group"><label for="profile-last-name">Last Name</label>-->
+<!--                                            <input type="text" class="form-control" id="profile-last-name" placeholder="Last Name">-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group"><label for="profile-email">Email Address</label>-->
+<!--                                            <input type="email" class="form-control" id="profile-email" placeholder="Email Address">-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group"><label for="profile-phone">Phone Number</label>-->
+<!--                                            <input type="text" class="form-control" id="profile-phone" placeholder="Phone Number">-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group mt-5 mb-0">-->
+<!--                                            <button class="btn btn-primary">Save</button>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- site__body / end -->
+{% endblock %}

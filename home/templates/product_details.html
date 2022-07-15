@@ -776,14 +776,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <form class="reviews-view__form" action="/product/addcomment/{{ product.id }}" method="post">
+                                    <form  method="post" action="/product/addcomment/{{ product.id }}" class="reviews-view__form" >
                                         {% csrf_token %}
                                         <h3 class="reviews-view__header">Write A Review</h3>
 
                                          {% if messages %}
                                               {% for message in messages %}
                                                   <div class="alert alert-{{ message.tags }}" role="alert">
-                                                      {{ message }}
+                                                      {{ message | safe }}
                                                   </div>
                                               {% endfor %}
                                         {% endif %}

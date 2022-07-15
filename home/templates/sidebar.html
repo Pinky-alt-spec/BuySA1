@@ -779,13 +779,13 @@
                                                     <!-- This is a synthetic element that allows to adjust the vertical offset of the submenu using CSS. -->
                                                     <div class="menu__item-submenu-offset"></div><a
                                                         class="menu__item-link"
-                                                        href="account-login.html">Login</a>
+                                                        href="/login">Login</a>
                                                 </li>
                                                 <li class="menu__item">
                                                     <!-- This is a synthetic element that allows to adjust the vertical offset of the submenu using CSS. -->
                                                     <div class="menu__item-submenu-offset"></div><a
                                                         class="menu__item-link"
-                                                        href="account-dashboard.html">Dashboard</a>
+                                                        href="/user">Dashboard</a>
                                                 </li>
                                                 <li class="menu__item">
                                                     <!-- This is a synthetic element that allows to adjust the vertical offset of the submenu using CSS. -->
@@ -796,14 +796,14 @@
                                                 <li class="menu__item">
                                                     <!-- This is a synthetic element that allows to adjust the vertical offset of the submenu using CSS. -->
                                                     <div class="menu__item-submenu-offset"></div><a
-                                                        class="menu__item-link" href="account-orders.html">Order
+                                                        class="menu__item-link" href="/user/oders">Order
                                                         History</a>
                                                 </li>
                                                 <li class="menu__item">
                                                     <!-- This is a synthetic element that allows to adjust the vertical offset of the submenu using CSS. -->
                                                     <div class="menu__item-submenu-offset"></div><a
                                                         class="menu__item-link"
-                                                        href="account-order-details.html">Order Details</a>
+                                                        href="/user/orders">Order Details</a>
                                                 </li>
                                                 <li class="menu__item">
                                                     <!-- This is a synthetic element that allows to adjust the vertical offset of the submenu using CSS. -->
@@ -821,7 +821,7 @@
                                                     <!-- This is a synthetic element that allows to adjust the vertical offset of the submenu using CSS. -->
                                                     <div class="menu__item-submenu-offset"></div><a
                                                         class="menu__item-link"
-                                                        href="account-password.html">Change Password</a>
+                                                        href="/user/password">Change Password</a>
                                                 </li>
                                             </ul>
                                         </div><!-- .menu / end -->
@@ -1041,7 +1041,7 @@
                                             {% if messages %}
                                                   {% for message in messages %}
                                                       <div class="alert alert-{{ message.tags }}" role="alert">
-                                                          {{ message }}
+                                                          {{ message | safe }}
                                                       </div>
                                                   {% endfor %}
                                             {% endif %}
@@ -1065,22 +1065,24 @@
                                         </form>
                                         {% else %}
                                         <div class="account-menu__divider"></div>
-                                        <a href="account-dashboard.html" class="account-menu__user">
+                                        <a href="/user" class="account-menu__user">
                                             <div class="account-menu__user-avatar">
                                                 <img src="{{ request.session.userimage }}" alt="">
                                             </div>
                                             <div class="account-menu__user-info">
-                                                <div class="account-menu__user-name">Helena Garcia</div>
+                                                <div class="account-menu__user-name">{{ user.first_name }} {{ user.last_name }}</div>
                                                 <div class="account-menu__user-email">{{ user.email }}</div>
                                             </div>
                                         </a>
                                         <div class="account-menu__divider"></div>
                                         <ul class="account-menu__links">
-                                            <li><a href="account-dashboard.html">Dashboard</a></li>
-                                            <li><a href="account-profile.html">Edit Profile</a></li>
-                                            <li><a href="account-orders.html">Order History</a></li>
+                                            <li><a href="/user">Dashboard</a></li>
+                                            <li><a href="/user/favorite">My Favorite</a></li>
+                                            <li><a href="/user/orders">Order History</a></li>
+                                            <li><a href="/user/comments">My Comments</a></li>
+                                            <li><a href="/user/user_update">Edit Profile</a></li>
                                             <li><a href="account-addresses.html">Addresses</a></li>
-                                            <li><a href="account-password.html">Password</a></li>
+                                            <li><a href="/user/password">Password</a></li>
                                         </ul>
                                         <div class="account-menu__divider"></div>
                                         <ul class="account-menu__links">
