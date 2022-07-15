@@ -6,4 +6,7 @@ urlpatterns = [
     path('user_update/', views.user_update, name='user_update'),
     path('address_update/', views.address_update, name='address_update'),
     path('password/', views.password_update, name='password_update'),
+    path('orders/', views.user_orders, name='user_orders'),
+    path('orderdetail/<int:id>', views.user_orderdetail, name='user_order_detail'),
+
 ]

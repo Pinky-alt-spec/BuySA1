@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+
+from order.models import Order, OrderProduct
 from product.models import Category
 from user.forms import RegisterForm, UserUpdateForm, ProfileUpdateForm
 from user.models import UserProfile
@@ -127,3 +129,32 @@ def password_update(request):
 
 def address_update(request):
     return render(request, 'user_address_update.html')
+
+
+@login_required(login_url='/login')
+def user_orders(request):
+    category = Category.objects.all()
+    current_user = request.user
+    orders = Order.objects.filter(user_id=current_user.id)
+
+    context = {
+        'category': category,
+        'orders': orders,
+    }
+
+    return render(request, 'user_orders.html', context)
+
+
+@login_required(login_url='/login')
+def user_orderdetail(request, id):
+    category = Category.objects.all()
+    current_user = request.user
+    order = Order.objects.get(user_id=current_user.id, id=id)
+    orderitems = OrderProduct.objects.filter(order_id=id)
+
+    context = {
+        'category': category,
+        'order': order,
+        'orderitems': orderitems
+    }
+    return render(request, 'user_order_detail.html', context)
