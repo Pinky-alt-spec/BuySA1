@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Order Page - {{ setting.title }} {% endblock %}
+{% block description %} {{ setting.description }} {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+{% block footer %} {% include 'footer.html' %} {% endblock %}
+
+{% block content %}
+
+<!-- site__body -->
+<div class="site__body">
+<div class="page-header">
+    <div class="page-header__container container">
+        <div class="page-header__breadcrumb">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/">Home</a>
+                        <svg class="breadcrumb-arrow" width="6px" height="9px">
+                            <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
+                        </svg>
+                    </li>
+                    <li class="breadcrumb-item"><a href="">Breadcrumb</a> <svg class="breadcrumb-arrow"
+                            width="6px" height="9px">
+                            <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
+                        </svg></li>
+                    <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="page-header__title">
+            <h1>Checkout</h1>
+        </div>
+    </div>
+</div>
+<div class="checkout block">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="container">
+        <div class="row">
+            <div class="col-12 mb-3">
+                <div class="alert alert-lg alert-primary">Returning customer?
+                    <a href="">Click here to login</a>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-7">
+                <div class="card mb-lg-0">
+                    <div class="card-body">
+                        <h3 class="card-title">Billing details</h3>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="checkout-first-name">First Name</label>
+                                <input name="first_name" value="{{ user.first_name }}" type="text" class="form-control" id="checkout-first-name" placeholder="First Name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="checkout-last-name">Last Name</label>
+                                <input name="last_name" value="{{ user.last_name }}" type="text" class="form-control" id="checkout-last-name" placeholder="Last Name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-country">Country</label>
+                            <select name="country" id="checkout-country" class="form-control form-control-select2">
+                                <option>Select a country...</option>
+                                <option value="{{ profile.country }}" selected>{{ profile.country }}</option>
+                                <option>South Africa</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-street-address">Street Address</label>
+                            <input name="address" value="{{ profile.address }}" type="text" class="form-control" id="checkout-street-address" placeholder="Street Address" required >
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-city">Town / City</label>
+                            <input name="city" value="{{ profile.city }}" type="text" class="form-control" id="checkout-city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-state">Country</label>
+                            <input name="country" value="{{ profile.country }}" type="text" class="form-control" id="checkout-state" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="checkout-email">Email address</label>
+                                <input name="email" value="{{ user.email }}" type="email" class="form-control" id="checkout-email" placeholder="Email address" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="checkout-phone">Phone</label>
+                                <input name="phone" value="{{ profile.phone }}" type="text" class="form-control" id="checkout-phone" placeholder="Phone" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <span class="form-check-input input-check">
+                                    <span class="input-check__body">
+                                        <input class="input-check__input" type="checkbox" id="checkout-create-account">
+                                        <span class="input-check__box"></span>
+                                        <svg class="input-check__icon" width="9px" height="7px">
+                                            <use xlink:href="images/sprite.svg#check-9x7"></use>
+                                        </svg>
+                                    </span>
+                                </span>
+                                <label class="form-check-label" for="checkout-create-account">Create an account?</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-divider"></div>
+                    <div class="card-body">
+                        <h3 class="card-title">Shipping Details</h3>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <span class="form-check-input input-check">
+                                    <span class="input-check__body">
+                                        <input class="input-check__input" type="checkbox" id="checkout-different-address">
+                                        <span class="input-check__box"></span>
+                                        <svg class="input-check__icon" width="9px" height="7px">
+                                            <use xlink:href="images/sprite.svg#check-9x7"></use>
+                                        </svg>
+                                    </span>
+                                </span>
+                                <label class="form-check-label" for="checkout-different-address">Ship to a different address?</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-comment">Order notes
+                                <span class="text-muted">(Optional)</span>
+                            </label>
+                            <textarea id="checkout-comment" class="form-control" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
+                <div class="card mb-0">
+                    <div class="card-body">
+                        <h3 class="card-title">Your Order</h3>
+                        <table class="checkout__totals" id="removecart">
+                            <thead class="checkout__totals-header">
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Product</th>
+                                    <th>Qty</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+
+                            {% for cart in schopcart %}
+                           <tbody class="checkout__totals-products">
+                                <tr>
+                                    <td class="cart-table__column cart-table__column--image">
+<!--                                        <div class="product-image">-->
+                                            <a href="/product/{{ cart.product.id }}/{{ cart.product.slug }}" class="product-image__body product-image">
+                                                <img class="product-image__img" src="{{ cart.product.image.url }}" alt="">
+                                            </a>
+<!--                                        </div>-->
+                                    </td>
+                                    <td>{{ cart.product.title | truncatewords:2 }}</td>
+                                    <td><strong>{{ cart.quantity }}</strong></td>
+                                    <td>${{ cart.price }}</td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                            <tbody class="checkout__totals-subtotals">
+                                <tr>
+                                    <th>Subtotal</th>
+                                    <th></th>
+                                    <th></th>
+                                    <td>${{ total }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Store Credit</th>
+                                    <th></th>
+                                    <th></th>
+                                    <td>$-20.00</td>
+                                </tr>
+                                <tr>
+                                    <th>Shipping</th>
+                                    <th></th>
+                                    <th></th>
+                                    <td>$25.00</td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="checkout__totals-footer">
+                                <tr>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th></th>
+                                    <td>${{ total }}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="payment-methods">
+                            <ul class="payment-methods__list">
+                                <li class="payment-methods__item payment-methods__item--active">
+                                    <label class="payment-methods__item-header">
+                                        <span class="payment-methods__item-radio input-radio">
+                                            <span class="input-radio__body">
+                                                <input class="input-radio__input" name="checkout_payment_method" type="radio" checked="checked">
+                                                <span class="input-radio__circle"></span>
+                                            </span>
+                                        </span>
+                                        <span class="payment-methods__item-title">Direct bank transfer</span>
+                                    </label>
+                                    <div class="payment-methods__item-container">
+                                        <div class="payment-methods__item-description text-muted">Make your
+                                            payment directly into our bank account. Please use your Order ID
+                                            as the payment reference. Your order will not be shipped until
+                                            the funds have cleared in our account.
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="payment-methods__item">
+                                    <label class="payment-methods__item-header">
+                                        <span class="payment-methods__item-radio input-radio">
+                                            <span class="input-radio__body">
+                                                <input class="input-radio__input" name="checkout_payment_method" type="radio">
+                                                <span class="input-radio__circle"></span>
+                                            </span>
+                                        </span>
+                                        <span class="payment-methods__item-title">Check payments</span>
+                                    </label>
+                                    <div class="payment-methods__item-container">
+                                        <div class="payment-methods__item-description text-muted">Please
+                                            send a check to Store Name, Store Street, Store Town, Store
+                                            State / County, Store Postcode.
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="checkout__agree form-group">
+                            <div class="form-check">
+                                <span class="form-check-input input-check">
+                                    <span class="input-check__body">
+                                        <input class="input-check__input" type="checkbox" id="checkout-terms">
+                                        <span class="input-check__box"></span>
+                                        <svg class="input-check__icon" width="9px" height="7px">
+                                            <use xlink:href="images/sprite.svg#check-9x7"></use>
+                                        </svg>
+                                    </span>
+                                </span>
+                                <label class="form-check-label" for="checkout-terms">I have read and agree to the website
+                                    <a target="_blank" href="terms-and-conditions.html">terms and conditions</a>*
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-xl btn-block">Place Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </form>
+</div>
+</div>
+<!-- site__body / end -->
+
+<script>
+function myFunction() {
+  document.getElementById("removecart").deleteRow(0);
+}
+</script>
+{% endblock %}
