@@ -7,6 +7,9 @@ urlpatterns = [
     path('address_update/', views.address_update, name='address_update'),
     path('password/', views.password_update, name='password_update'),
     path('orders/', views.user_orders, name='user_orders'),
+    path('orders_product/', views.user_order_product, name='user_orders_product'),
+
     path('orderdetail/<int:id>', views.user_orderdetail, name='user_order_detail'),
+    path('order_product_detail/<int:id>/<int:oid>', views.user_order_product_detail, name='user_order_product_detail'),
 
 ]

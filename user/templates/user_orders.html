@@ -47,7 +47,7 @@
                             <div class="table-responsive-sm">
                                 <table>
                                     <thead>
-                                        <tr>
+                                        <tr style="font-size:12px">
                                             <th>Id</th>
                                             <th>Name</th>
                                             <th>Date</th>
@@ -59,13 +59,13 @@
                                     </thead>
                                     <tbody>
                                     {% for cart in orders %}
-                                        <tr>
-                                            <td><a href="account-order-details.html">{{ cart.id }}</a></td>
+                                        <tr style="font-size:12px">
+                                            <td><a href="/user/orderdetail/{{ cart.id }}">{{ cart.id }}</a></td>
                                             <td>{{ cart.first_name }} {{ cart.last_name }}</td>
                                             <td>{{ cart.create_at }}</td>
                                             <td>{{ cart.status }}</td>
                                             <td>${{ cart.total }} for {{ cart.quantity }} item(s)</td>
-                                            <td><a class="btn btn-primary product-card__addtocart" type="button" href="/user/orderdetail/{{ cart.id }}">Details</a></td>
+                                            <td><a class="btn btn-primary btn-sm product-card__addtocart" type="button" style="font-size:12px" href="/user/orderdetail/{{ cart.id }}">Details</a></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>

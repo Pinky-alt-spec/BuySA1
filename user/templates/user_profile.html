@@ -82,24 +82,14 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                        {% for cart in orders %}
                                             <tr>
-                                                <td><a href="">#8132</a></td>
-                                                <td>02 April, 2019</td>
-                                                <td>Pending</td>
-                                                <td>$2,719.00 for 5 item(s)</td>
+                                                <td><a href="/user/orderdetail/{{ cart.id }}">#8132</a></td>
+                                                <td>{{ cart.create_at }}</td>
+                                                <td>{{ cart.status }}</td>
+                                                <td>${{ cart.price }} for {{ cart.quantity }} item(s)</td>
                                             </tr>
-                                            <tr>
-                                                <td><a href="">#7592</a></td>
-                                                <td>28 March, 2019</td>
-                                                <td>Pending</td>
-                                                <td>$374.00 for 3 item(s)</td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="">#7192</a></td>
-                                                <td>15 March, 2019</td>
-                                                <td>Shipped</td>
-                                                <td>$791.00 for 4 item(s)</td>
-                                            </tr>
+                                        {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>

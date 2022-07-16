@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} {{ user.first_name }} Order Detail {% endblock %}
+{% block title %} Order Detail {% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
 
@@ -40,15 +40,12 @@
                 <div class="col-12 col-lg-9 mt-4 mt-lg-0">
                     <div class="card">
                         <div class="order-header">
-                            <div class="order-header__actions"><a href="/user/orders"
+                            <div class="order-header__actions"><a href="/user/orders_product"
                                     class="btn btn-xs btn-secondary">Back to list</a></div>
-                            <h5 class="order-header__title">Order {{ order.user.ordercode }}</h5>
+                            <h5 class="order-header__title">Order #45363</h5>
                             <div class="order-header__subtitle">Was placed on
                                 <mark class="order-header__date">{{ order.create_at }}</mark> and is currently
                                 <mark class="order-header__status" style="color:#0e8eb3">{{ order.status }}</mark>.
-                            </div>
-                            <div class="order-header__subtitle">
-                                <mark class="order-header__date">Shipping Info: {{ order.adminnote }}</mark>
                             </div>
                         </div>
                         <div class="card-divider"></div>
@@ -74,7 +71,7 @@
                                     <tbody class="card-table__body card-table__body--merge-rows">
                                         <tr>
                                             <th>Subtotal</th>
-                                            <td>${{ total }}</td>
+                                            <td>${{ order.total }}</td>
                                         </tr>
                                         <tr>
                                             <th>Store Credit</th>
@@ -88,13 +85,19 @@
                                     <tfoot>
                                         <tr>
                                             <th>Total</th>
-                                            <td>${{ total }}</td>
+                                            <td>${{ order.total }}</td>
+                                        </tr>
+                                    </tfoot>
+                                    <tfoot>
+                                        <tr>
+                                            <td class="order-header__date">Shipping Info: {{ order.adminnote }}</td>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
                         </div>
                     </div>
+
                     <div class="row mt-3 no-gutters mx-n2">
                         <div class="col-sm-6 col-12 px-2">
                             <div class="card address-card address-card--featured">
@@ -109,7 +112,7 @@
                                     </div>
                                     <div class="address-card__row">
                                         <div class="address-card__row-title">Email Address</div>
-                                        <div class="address-card__row-content">{{ order.email }}</div>
+                                        <div class="address-card__row-content">{{ user.email }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -134,6 +137,70 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card">
+                                <div class="card-header">
+                                    <h5>Order Item List</h5>
+                                </div>
+                                <div class="card-divider"></div>
+                                <div class="card-table">
+                                    <div class="table-responsive-sm">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Image</th>
+                                                    <th>Product</th>
+                                                    <th>Price</th>
+                                                    <th>Qty</th>
+                                                    <th>Amount</th>
+                                                    <th>Status</th>
+                                                    <th>Date</th>
+<!--                                                    <th>Details</th>-->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for cart in orderitems %}
+                                                <tr style="font-size:12px">
+                                                    <td class="cart-table__column cart-table__column--image">
+                                                        <div class="product-image">
+                                                            <a href="/product/{{ cart.product.id }}/{{ cart.product.slug }}" class="product-image__body">
+                                                                <img class="product-image__img" src="{{ cart.product.image.url }}" alt="">
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ cart.product.title }}</td>
+                                                    <td>{{ cart.price }}</td>
+                                                    <td>{{ cart.quantity }}</td>
+                                                    <td>{{ cart.amount }}</td>
+                                                    <td>{{ cart.status }}</td>
+                                                    <td>{{ cart.create_at }}</td>
+<!--                                                    <td><a class="btn btn-primary btn-sm product-card__addtocart" type="button" style="font-size:12px" href="/user/order_product_detail/{{ cart.id }}/{{ cart.order.id }}">Details</a></td>-->
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="card-divider"></div>
+                                <div class="card-footer">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item disabled"><a class="page-link page-link--with-arrow"
+                                                href="" aria-label="Previous"><svg
+                                                    class="page-link__arrow page-link__arrow--left" aria-hidden="true"
+                                                    width="8px" height="13px">
+                                                    <use xlink:href="images/sprite.svg#arrow-rounded-left-8x13"></use>
+                                                </svg></a></li>
+                                        <li class="page-item"><a class="page-link" href="">1</a></li>
+                                        <li class="page-item active"><a class="page-link" href="">2 <span
+                                                    class="sr-only">(current)</span></a></li>
+                                        <li class="page-item"><a class="page-link" href="">3</a></li>
+                                        <li class="page-item"><a class="page-link page-link--with-arrow" href=""
+                                                aria-label="Next"><svg class="page-link__arrow page-link__arrow--right"
+                                                    aria-hidden="true" width="8px" height="13px">
+                                                    <use xlink:href="images/sprite.svg#arrow-rounded-right-8x13"></use>
+                                                </svg></a></li>
+                                    </ul>
+                                </div>
+                            </div>
                 </div>
             </div>
         </div>

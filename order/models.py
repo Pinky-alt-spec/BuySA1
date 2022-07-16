@@ -34,9 +34,10 @@ class Order(models.Model):
         ('New', 'New'),
         ('Accepted', 'Accepted'),
         ('Preparing', 'Preparing'),
-        ('OnShipping', 'OnShipping'),
+        ('Shipped', 'Shipped'),
         ('Completed', 'Completed'),
         ('Cancelled', 'Cancelled'),
+        ('On hold', 'On hold'),
     )
 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

@@ -17,10 +17,12 @@ def index(request):
     current_user = request.user  # access User session info
 
     profile = UserProfile.objects.get(user_id=current_user.id)
+    orders = Order.objects.filter(user_id=current_user.id).order_by('-id')[:3]
     # return HttpResponse(profile)
     context = {
         'category': category,
         'profile': profile,
+        'orders': orders,
     }
     return render(request, 'user_profile.html', context)
 
@@ -151,6 +153,34 @@ def user_orderdetail(request, id):
     current_user = request.user
     order = Order.objects.get(user_id=current_user.id, id=id)
     orderitems = OrderProduct.objects.filter(order_id=id)
+
+    context = {
+        'category': category,
+        'order': order,
+        'orderitems': orderitems
+    }
+    return render(request, 'user_order_detail.html', context)
+
+
+@login_required(login_url='/login')
+def user_order_product(request):
+    category = Category.objects.all()
+    current_user = request.user
+    order_product = OrderProduct.objects.filter(user_id=current_user.id)
+
+    context = {
+        'category': category,
+        'order_product': order_product,
+    }
+    return render(request, 'user_order_products.html', context)
+
+
+@login_required(login_url='/login')
+def user_order_product_detail(request, id, oid):
+    category = Category.objects.all()
+    current_user = request.user
+    order = Order.objects.get(user_id=current_user.id, id=oid)
+    orderitems = OrderProduct.objects.filter(id=id, user_id=current_user.id)
 
     context = {
         'category': category,
