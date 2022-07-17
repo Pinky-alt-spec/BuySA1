@@ -95,16 +95,18 @@
                                 <div class="product__rating">
                                     <div class="single-review">
 
-                                        <div class="review-rating pull-right" style="font-size:12px">
-                                            <i class="fa fa-star{% if cart.rate < 1 %}-o empty{% endif %}"></i>
-                                            <i class="fa fa-star{% if cart.rate < 2 %}-o empty{% endif %}"></i>
-                                            <i class="fa fa-star{% if cart.rate < 3 %}-o empty{% endif %}"></i>
-                                            <i class="fa fa-star{% if cart.rate < 4 %}-o empty{% endif %}"></i>
-                                            <i class="fa fa-star{% if cart.rate < 5 %}-o empty{% endif %}"></i>
+                                        <div class="product-rating review-rating pull-right"  style="font-size:12px">
+                                            <i class="fa fa-star{% if product.avaregereview < 1%}-o empty{% endif%}"></i>
+                                            <i class="fa fa-star{% if product.avaregereview < 2%}-o empty{% endif%}"></i>
+                                            <i class="fa fa-star{% if product.avaregereview < 3%}-o empty{% endif%}"></i>
+                                            <i class="fa fa-star{% if product.avaregereview < 4%}-o empty{% endif%}"></i>
+                                            <i class="fa fa-star{% if product.avaregereview < 5%}-o empty{% endif%}"></i>
+                                            {{ product.avaregereview |stringformat:".2f"}}
                                         </div>
 
+
                                     </div>
-                                    <div class="product__rating-legend" style="font-size:12px; margin-top:4px"><a href="">  7 Reviews</a><span>/</span><a
+                                    <div class="product__rating-legend" style="font-size:12px; margin-top:3px">&nbsp;&nbsp;<a href="">{{ product.countreview }} Review(s)</a><span>/</span><a
                                             href="">Write A Review</a></div>
                                 </div>
                                 <div class="product__description">{{ product.small_product_details | safe }}</div>
@@ -213,7 +215,7 @@
                                 <div class="product-tabs__list-container container"><a href="#tab-description"
                                         class="product-tabs__item product-tabs__item--active">Description</a> <a
                                         href="#tab-specification" class="product-tabs__item">Specification</a> <a
-                                        href="#tab-reviews" class="product-tabs__item">Reviews</a></div>
+                                        href="#tab-reviews" class="product-tabs__item">Reviews({{ product.countreview }})</a></div>
                             </div>
                         </div>
                         <div class="product-tabs__content">
@@ -226,56 +228,7 @@
                             <div class="product-tabs__pane" id="tab-specification">
                                 <div class="spec">
                                     <h3 class="spec__header">Specification</h3>
-                                    <div class="spec__section">
-                                        <h4 class="spec__section-title">General</h4>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Material</div>
-                                            <div class="spec__value">Aluminium, Plastic</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Engine Type</div>
-                                            <div class="spec__value">Brushless</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Battery Voltage</div>
-                                            <div class="spec__value">18 V</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Battery Type</div>
-                                            <div class="spec__value">Li-lon</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Number of Speeds</div>
-                                            <div class="spec__value">2</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Charge Time</div>
-                                            <div class="spec__value">1.08 h</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Weight</div>
-                                            <div class="spec__value">1.5 kg</div>
-                                        </div>
-                                    </div>
-                                    <div class="spec__section">
-                                        <h4 class="spec__section-title">Dimensions</h4>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Length</div>
-                                            <div class="spec__value">99 mm</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Width</div>
-                                            <div class="spec__value">207 mm</div>
-                                        </div>
-                                        <div class="spec__row">
-                                            <div class="spec__name">Height</div>
-                                            <div class="spec__value">208 mm</div>
-                                        </div>
-                                    </div>
-                                    <div class="spec__disclaimer">Information on technical characteristics, the delivery
-                                        set, the country of manufacture and the appearance of the goods is for reference
-                                        only and is based on the latest information available at the time of
-                                        publication.</div>
+                                    {{ product.information | safe }}
                                 </div>
                             </div>
                             <div class="product-tabs__pane" id="tab-reviews">
@@ -284,20 +237,21 @@
                                         <h3 class="reviews-view__header">Customer Reviews</h3>
                                         <div class="reviews-list">
                                             <ol class="reviews-list__content">
-                                                {% for cart in comments %}
+
                                                 <li class="reviews-list__item">
                                                     <div class="review">
                                                         <div class="review__avatar">
-                                                            <img src="{{ cart.user.image.url }}" alt="">
+                                                            <img src="{{ request.session.userimage }}" alt="">
                                                         </div>
                                                         <div class="review__content">
+                                                            {% for cart in comments %}
                                                             <div class="review__author">{{ cart.user.first_name }} {{ cart.user.last_name }}</div><br />
                                                             <div class="review__rating">
                                                                 <div class="product-reviews">
                                                                     <div class="rating__body">
                                                                         <div class="single-review">
                                                                             <div class="review-heading">
-                                                                                <div><b>{{ cart.subject }}</b> </div>
+                                                                                <b>{{ cart.subject }}</b>
                                                                                 <div class="review-rating pull-right" style="font-size:12px">
                                                                                     <i class="fa fa-star{% if cart.rate < 1 %}-o empty{% endif %}"></i>
                                                                                     <i class="fa fa-star{% if cart.rate < 2 %}-o empty{% endif %}"></i>
@@ -305,19 +259,20 @@
                                                                                     <i class="fa fa-star{% if cart.rate < 4 %}-o empty{% endif %}"></i>
                                                                                     <i class="fa fa-star{% if cart.rate < 5 %}-o empty{% endif %}"></i>
                                                                                 </div>
-                                                                            </div><br />
-                                                                            <div class="review-body">
-                                                                                <p>{{ cart.comment }}</p>
                                                                             </div>
+                                                                            <p class="review-body">
+                                                                                {{ cart.comment }}
+                                                                            </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="review__date">{{ cart.create_at }}</div>
+                                                                {% endfor %}
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </li>
-                                                {% endfor %}
+
                                             </ol>
                                             <div class="reviews-list__pagination">
                                                 <ul class="pagination justify-content-center">

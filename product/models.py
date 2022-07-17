@@ -1,5 +1,6 @@
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
+from django.db.models import Avg, Count
 from django.forms import ModelForm, TextInput
 from django.utils.safestring import mark_safe
 from django.urls import reverse
