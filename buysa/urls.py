@@ -40,6 +40,7 @@ urlpatterns = [
     path('register/', UserViews.register_form, name='register_form'),
     path('login/', UserViews.login_form, name='login_form'),
     path('logout/', UserViews.logout_func, name='logout_func'),
+    path('faq/', UserViews.faq, name='faq'),
 
     path('category/<int:id>/<slug:slug>', views.category_products, name='category_products'),
     path('product/<int:id>/<slug:slug>', views.product_details, name='product_details'),

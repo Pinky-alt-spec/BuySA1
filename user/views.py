@@ -5,6 +5,9 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
+from buysa import settings
+from home.models import FAQ
+
 from order.models import Order, OrderProduct
 from product.models import Category, Comment
 from user.forms import RegisterForm, UserUpdateForm, ProfileUpdateForm
@@ -201,9 +204,20 @@ def user_comments(request):
     return render(request, 'user_comments.html', context)
 
 
-@login_required(login_url='/login') # Check login
-def user_delete_comment(request,id):
+@login_required(login_url='/login')  # Check login
+def user_delete_comment(request, id):
     current_user = request.user
     Comment.objects.filter(id=id, user_id=current_user.id).delete()
     messages.success(request, 'Comment deleted..')
     return HttpResponseRedirect('/user/comments')
+
+
+def faq(request):
+    category = Category.objects.all()
+    faq = FAQ.objects.filter(status="True").order_by("ordernumber")
+
+    context = {
+        'category': category,
+        'faq': faq,
+    }
+    return render(request, 'faq.html', context)
