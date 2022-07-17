@@ -53,61 +53,61 @@
                         <h3 class="block-header__title">Featured Products</h3>
                         <div class="block-header__divider"></div>
                         <ul class="block-header__groups-list">
-                            <li><button type="button"
-                                    class="block-header__group block-header__group--active">All</button></li>
+                            <li><button type="button" class="block-header__group block-header__group--active">All</button></li>
                             <li><button type="button" class="block-header__group">Power Tools</button></li>
                             <li><button type="button" class="block-header__group">Hand Tools</button></li>
                             <li><button type="button" class="block-header__group">Plumbing</button></li>
                         </ul>
-                        <div class="block-header__arrows-list"><button
-                                class="block-header__arrow block-header__arrow--left" type="button"><svg width="7px"
-                                    height="11px">
-                                    <use xlink:href="static/images/sprite.svg#arrow-rounded-left-7x11"></use>
-                                </svg></button> <button class="block-header__arrow block-header__arrow--right"
-                                type="button"><svg width="7px" height="11px">
-                                    <use xlink:href="static/images/sprite.svg#arrow-rounded-right-7x11"></use>
-                                </svg></button></div>
+                        <div class="block-header__arrows-list">
+                            <button class="block-header__arrow block-header__arrow--left" type="button">
+                                <svg width="7px" height="11px"><use xlink:href="static/images/sprite.svg#arrow-rounded-left-7x11"></use></svg>
+                            </button>
+                            <button class="block-header__arrow block-header__arrow--right" type="button">
+                                <svg width="7px" height="11px"><use xlink:href="static/images/sprite.svg#arrow-rounded-right-7x11"></use></svg>
+                            </button>
+                        </div>
                     </div>
                     <div class="block-products-carousel__slider">
                         <div class="block-products-carousel__preloader"></div>
                         <div class="owl-carousel">
+
                             {% for featured in product_featured %}
                             <div class="block-products-carousel__column">
                                 <div class="block-products-carousel__cell">
-                                    <div class="product-card product-card--hidden-actions"><button
-                                            class="product-card__quickview" type="button"><svg width="16px"
-                                                height="16px">
-                                                <use xlink:href="static/images/sprite.svg#quickview-16"></use>
-                                            </svg> <span class="fake-svg-icon"></span></button>
+                                    <div class="product-card product-card--hidden-actions">
+                                        <button class="product-card__quickview" type="button">
+                                            <svg width="16px" height="16px"><use xlink:href="static/images/sprite.svg#quickview-16"></use></svg> <span class="fake-svg-icon"></span>
+                                        </button>
                                         <div class="product-card__badges-list">
                                             <div class="product-card__badge product-card__badge--new">New</div>
                                         </div>
 
-                                        <div class="product-card__image product-image"><a href="/product/{{ featured.id }}/{{ featured.slug }}"
-                                                class="product-image__body"><img class="product-image__img"
-                                                    src="{{ featured.image.url }}" alt=""></a></div>
-
+                                        <div class="product-card__image product-image">
+                                            <a href="/product/{{ featured.id }}/{{ featured.slug }}" class="product-image__body">
+                                                <img class="product-image__img" src="{{ featured.image.url }}" alt="">
+                                            </a>
+                                        </div>
 
                                         <div class="product-card__info">
                                             <div class="product-card__name"><a href="/product/{{ featured.id }}/{{ featured.slug }}">{{ featured.title }}</a></div>
                                             <div class="product-card__rating">
                                                 <div class="product-card__rating-stars">
-                                                    <div class="rating">
-                                                        <div class="rating__body single-review">
+                                                    <div class="product__rating">
+                                                        <div class="single-review">
 
-
-                                                            <div class="review-rating pull-right" style="font-size:12px">
-                                                                <i class="fa fa-star{% if cart.rate < 1 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 2 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 3 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 4 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 5 %}-o empty{% endif %}"></i>
+                                                            <div class="product-rating review-rating pull-right" style="font-size:12px">
+                                                                <i class="fa fa-star{% if featured.avaregereview < 1%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if featured.avaregereview < 2%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if featured.avaregereview < 3%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if featured.avaregereview < 4%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if featured.avaregereview < 5%}-o empty{% endif%}"></i>
+                                                                {{ featured.avaregereview |stringformat:".2f"}}
+                                                                <i class="product-card__rating-legend" style="color:#0e8eb3">{{ featured.countreview }} Review(s)</i>
                                                             </div>
 
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="product-card__rating-legend" style="font-size:12px; margin-top:5px">9 Reviews</div>
                                             </div>
                                             <ul class="product-card__features-list">
                                                 <li>Speed: 750 RPM</li>
@@ -118,25 +118,21 @@
                                             </ul>
                                         </div>
                                         <div class="product-card__actions">
-                                            <div class="product-card__availability">Availability: <span
-                                                    class="text-success">{{ featured.availability }}</span></div>
+                                            <div class="product-card__availability">Availability:
+                                                <span class="text-success">{{ featured.availability }}</span>
+                                            </div>
                                             <div class="product-card__prices">${{ featured.price }}</div>
-                                            <div class="product-card__buttons"><a
-                                                    class="btn btn-primary product-card__addtocart" type="button" href="/order/addtoshopcart/{{ featured.id }}">Add To
-                                                    Cart</a> <a
-                                                    class="btn btn-secondary product-card__addtocart product-card__addtocart--list"
-                                                    type="button" href="/order/addtoshopcart/{{ product.id }}">Add To Cart</a> <button
-                                                    class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-                                                    type="button"><svg width="16px" height="16px">
-                                                        <use xlink:href="static/images/sprite.svg#wishlist-16"></use>
-                                                    </svg> <span
-                                                        class="fake-svg-icon fake-svg-icon--wishlist-16"></span></button>
-                                                <button
-                                                    class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__compare"
-                                                    type="button"><svg width="16px" height="16px">
-                                                        <use xlink:href="static/images/sprite.svg#compare-16"></use>
-                                                    </svg> <span
-                                                        class="fake-svg-icon fake-svg-icon--compare-16"></span></button>
+                                            <div class="product-card__buttons">
+                                                <a class="btn btn-primary product-card__addtocart" type="button" href="/order/addtoshopcart/{{ featured.id }}">Add To Cart</a>
+                                                <a class="btn btn-secondary product-card__addtocart product-card__addtocart--list" type="button" href="/order/addtoshopcart/{{ product.id }}">Add To Cart</a>
+                                                <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist" type="button">
+                                                    <svg width="16px" height="16px"><use xlink:href="static/images/sprite.svg#wishlist-16"></use></svg>
+                                                    <span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
+                                                </button>
+                                                <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__compare" type="button">
+                                                    <svg width="16px" height="16px"><use xlink:href="static/images/sprite.svg#compare-16"></use></svg>
+                                                    <span class="fake-svg-icon fake-svg-icon--compare-16"></span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -146,19 +142,25 @@
                         </div>
                     </div>
                 </div>
-            </div><!-- .block-products-carousel / end -->
+            </div>
+            <!-- .block-products-carousel / end -->
+
             <!-- .block-banner -->
             <div class="block block-banner">
-                <div class="container"><a href="" class="block-banner__body">
-                        <div class="block-banner__image block-banner__image--desktop"
-                            style="background-image: url('static/images/banners/banner-1.jpg')"></div>
-                        <div class="block-banner__image block-banner__image--mobile"
-                            style="background-image: url('static/images/banners/banner-1-mobile.jpg')"></div>
+                <div class="container">
+                    <a href="" class="block-banner__body">
+                        <div class="block-banner__image block-banner__image--desktop" style="background-image: url('static/images/banners/banner-1.jpeg')"></div>
+                        <div class="block-banner__image block-banner__image--mobile" style="background-image: url('static/images/banners/banner-1-mobile.jpeg')"></div>
                         <div class="block-banner__title">Hundreds<br class="block-banner__mobile-br">Hand Tools</div>
                         <div class="block-banner__text">Hammers, Chisels, Universal Pliers, Nippers, Jigsaws, Saws</div>
-                        <div class="block-banner__button"><span class="btn btn-sm btn-primary">Shop Now</span></div>
-                    </a></div>
-            </div><!-- .block-banner / end -->
+                        <div class="block-banner__button">
+                            <span class="btn btn-sm btn-primary">Shop Now</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- .block-banner / end -->
+
             <!-- .block-products -->
             <div class="block block-products block-products--layout--large-first" data-mobile-grid-columns="2">
                 <div class="container">
@@ -170,37 +172,42 @@
                         <div class="block-products__featured">
                             {% for single in singleproduct %}
                             <div class="block-products__featured-item">
-                                <div class="product-card product-card--hidden-actions"><button
-                                        class="product-card__quickview" type="button"><svg width="16px" height="16px">
+                                <div class="product-card product-card--hidden-actions">
+                                    <button class="product-card__quickview" type="button">
+                                        <svg width="16px" height="16px">
                                             <use xlink:href="static/images/sprite.svg#quickview-16"></use>
-                                        </svg> <span class="fake-svg-icon"></span></button>
+                                        </svg>
+                                        <span class="fake-svg-icon"></span>
+                                    </button>
                                     <div class="product-card__badges-list">
                                         <div class="product-card__badge product-card__badge--new">{{ single.condition }}</div>
                                     </div>
-                                    <div class="product-card__image product-image"><a href="/product/{{ single.id }}/{{ single.slug }}"
-                                            class="product-image__body"><img class="product-image__img"
-                                                src="{{  single.image.url }}" alt=""></a></div>
+                                    <div class="product-card__image product-image">
+                                        <a href="/product/{{ single.id }}/{{ single.slug }}" class="product-image__body">
+                                            <img class="product-image__img" src="{{  single.image.url }}" alt="">
+                                        </a>
+                                    </div>
                                     <div class="product-card__info">
                                         <div class="product-card__name"><a href="/product/{{ single.id }}/{{ single.slug }}">{{ single.title }}</a></div>
                                         <div class="product-card__rating">
                                             <div class="product-card__rating-stars">
 
-                                                <div class="rating">
-                                                    <div class="rating__body single-review">
+                                                <div class="product__rating">
+                                                    <div class="single-review">
 
-                                                        <div class="review-rating pull-right" style="font-size:12px">
-                                                            <i class="fa fa-star{% if cart.rate < 1 %}-o empty{% endif %}"></i>
-                                                            <i class="fa fa-star{% if cart.rate < 2 %}-o empty{% endif %}"></i>
-                                                            <i class="fa fa-star{% if cart.rate < 3 %}-o empty{% endif %}"></i>
-                                                            <i class="fa fa-star{% if cart.rate < 4 %}-o empty{% endif %}"></i>
-                                                            <i class="fa fa-star{% if cart.rate < 5 %}-o empty{% endif %}"></i>
+                                                        <div class="product-rating review-rating pull-right" style="font-size:12px">
+                                                            <i class="fa fa-star{% if single.avaregereview < 1%}-o empty{% endif%}"></i>
+                                                            <i class="fa fa-star{% if single.avaregereview < 2%}-o empty{% endif%}"></i>
+                                                            <i class="fa fa-star{% if single.avaregereview < 3%}-o empty{% endif%}"></i>
+                                                            <i class="fa fa-star{% if single.avaregereview < 4%}-o empty{% endif%}"></i>
+                                                            <i class="fa fa-star{% if single.avaregereview < 5%}-o empty{% endif%}"></i>
+                                                            {{ single.avaregereview |stringformat:".2f"}}
+                                                            <i class="product-card__rating-legend" style="color:#0e8eb3">{{ single.countreview }} Review(s)</i>
                                                         </div>
 
                                                     </div>
                                                 </div>
-
                                             </div>
-                                            <div class="product-card__rating-legend" style="font-size:12px; margin-top:5px">9 Reviews</div>
                                         </div>
                                         <ul class="product-card__features-list">
                                             <li>Speed: 750 RPM</li>
@@ -214,22 +221,21 @@
                                         <div class="product-card__availability">Availability: <span
                                                 class="text-success">{{ single.availabitity }}</span></div>
                                         <div class="product-card__prices">${{ single.price }}</div>
-                                        <div class="product-card__buttons"><a
-                                                class="btn btn-primary product-card__addtocart" type="button" href="/order/addtoshopcart/{{ single.id }}">Add To
-                                                Cart</a> <a
-                                                class="btn btn-secondary product-card__addtocart product-card__addtocart--list"
-                                                type="button" href="/order/addtoshopcart/{{ product.id }}">Add To Cart</a> <button
-                                                class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist"
-                                                type="button"><svg width="16px" height="16px">
+                                        <div class="product-card__buttons">
+                                            <a class="btn btn-primary product-card__addtocart" type="button" href="/order/addtoshopcart/{{ single.id }}">Add To Cart</a>
+                                            <a class="btn btn-secondary product-card__addtocart product-card__addtocart--list" type="button" href="/order/addtoshopcart/{{ product.id }}">Add To Cart</a>
+                                            <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist" type="button">
+                                                <svg width="16px" height="16px">
                                                     <use xlink:href="static/images/sprite.svg#wishlist-16"></use>
-                                                </svg> <span
-                                                    class="fake-svg-icon fake-svg-icon--wishlist-16"></span></button>
-                                            <button
-                                                class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__compare"
-                                                type="button"><svg width="16px" height="16px">
+                                                </svg>
+                                                <span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
+                                            </button>
+                                            <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__compare" type="button">
+                                                <svg width="16px" height="16px">
                                                     <use xlink:href="static/images/sprite.svg#compare-16"></use>
-                                                </svg> <span
-                                                    class="fake-svg-icon fake-svg-icon--compare-16"></span></button>
+                                                </svg>
+                                                <span class="fake-svg-icon fake-svg-icon--compare-16"></span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -239,37 +245,39 @@
                         <div class="block-products__list">
                             {% for best in product_best_seller %}
                             <div class="block-products__list-item">
-                                <div class="product-card product-card--hidden-actions"><button
-                                        class="product-card__quickview" type="button"><svg width="16px" height="16px">
-                                            <use xlink:href="static/images/sprite.svg#quickview-16"></use>
-                                        </svg> <span class="fake-svg-icon"></span></button>
+                                <div class="product-card product-card--hidden-actions"><button class="product-card__quickview" type="button">
+                                    <svg width="16px" height="16px">
+                                        <use xlink:href="static/images/sprite.svg#quickview-16"></use>
+                                    </svg>
+                                    <span class="fake-svg-icon"></span>
+                                </button>
                                     <div class="product-card__badges-list">
                                         <div class="product-card__badge product-card__badge--hot">{{ best.condition }}</div>
                                     </div>
-                                    <div class="product-card__image product-image"><a href="/product/{{ best.id }}/{{ best.slug }}"
-                                            class="product-image__body"><img class="product-image__img"
-                                                src="{{ best.image.url }}" alt=""></a></div>
+                                    <div class="product-card__image product-image"><a href="/product/{{ best.id }}/{{ best.slug }}" class="product-image__body">
+                                        <img class="product-image__img" src="{{ best.image.url }}" alt=""></a>
+                                    </div>
                                     <div class="product-card__info">
                                         <div class="product-card__name"><a href="/product/{{ best.id }}/{{ best.slug }}">{{ best.title }}</a></div>
                                         <div class="product-card__rating">
                                             <div class="product-card__rating-stars">
 
-                                                <div class="rating">
-                                                    <div class="rating__body single-review">
+                                               <div class="product__rating">
+                                                    <div class="single-review">
 
-                                                        <div class="review-rating pull-right" style="font-size:12px">
-                                                            <i class="fa fa-star{% if cart.rate < 1 %}-o empty{% endif %}"></i>
-                                                            <i class="fa fa-star{% if cart.rate < 2 %}-o empty{% endif %}"></i>
-                                                            <i class="fa fa-star{% if cart.rate < 3 %}-o empty{% endif %}"></i>
-                                                            <i class="fa fa-star{% if cart.rate < 4 %}-o empty{% endif %}"></i>
-                                                            <i class="fa fa-star{% if cart.rate < 5 %}-o empty{% endif %}"></i>
+                                                        <div class="product-rating review-rating pull-right" style="font-size:12px">
+                                                            <i class="fa fa-star{% if best.avaregereview < 1%}-o empty{% endif%}"></i>
+                                                            <i class="fa fa-star{% if best.avaregereview < 2%}-o empty{% endif%}"></i>
+                                                            <i class="fa fa-star{% if best.avaregereview < 3%}-o empty{% endif%}"></i>
+                                                            <i class="fa fa-star{% if best.avaregereview < 4%}-o empty{% endif%}"></i>
+                                                            <i class="fa fa-star{% if best.avaregereview < 5%}-o empty{% endif%}"></i>
+                                                            {{ best.avaregereview |stringformat:".2f"}}
+                                                            <i class="product-card__rating-legend" style="color:#0e8eb3">{{ best.countreview }} Review(s)</i>
                                                         </div>
 
                                                     </div>
                                                 </div>
-
                                             </div>
-                                            <div class="product-card__rating-legend" style="font-size:12px; margin-top:5px">11 Reviews</div>
                                         </div>
                                         <ul class="product-card__features-list">
                                             <li>Speed: 750 RPM</li>
@@ -366,22 +374,22 @@
                                             <div class="product-card__rating">
                                                 <div class="product-card__rating-stars">
 
-                                                    <div class="rating">
-                                                    <div class="rating__body single-review">
+                                                    <div class="product__rating">
+                                                        <div class="single-review">
 
-                                                        <div class="review-rating pull-right" style="font-size:12px">
-                                                            <i class="fa fa-star{% if cart.rate < 1 %}-o empty{% endif %}"></i>
-                                                            <i class="fa fa-star{% if cart.rate < 2 %}-o empty{% endif %}"></i>
-                                                            <i class="fa fa-star{% if cart.rate < 3 %}-o empty{% endif %}"></i>
-                                                            <i class="fa fa-star{% if cart.rate < 4 %}-o empty{% endif %}"></i>
-                                                            <i class="fa fa-star{% if cart.rate < 5 %}-o empty{% endif %}"></i>
+                                                            <div class="product-rating review-rating pull-right" style="font-size:12px">
+                                                                <i class="fa fa-star{% if newarrival.avaregereview < 1%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if newarrival.avaregereview < 2%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if newarrival.avaregereview < 3%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if newarrival.avaregereview < 4%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if newarrival.avaregereview < 5%}-o empty{% endif%}"></i>
+                                                                {{ newarrival.avaregereview |stringformat:".2f"}}
+                                                                <i class="product-card__rating-legend" style="color:#0e8eb3">{{ newarrival.countreview }} Review(s)</i>
+                                                            </div>
+
                                                         </div>
-
                                                     </div>
                                                 </div>
-
-                                                </div>
-                                                <div class="product-card__rating-legend" style="font-size:12px; margin-top:5px">9 Reviews</div>
                                             </div>
                                             <ul class="product-card__features-list">
                                                 <li>Speed: 750 RPM</li>
@@ -476,22 +484,22 @@
                                             <div class="product-card__rating">
                                                 <div class="product-card__rating-stars">
 
-                                                    <div class="rating">
-                                                        <div class="rating__body single-review">
+                                                     <div class="product__rating">
+                                                        <div class="single-review">
 
-                                                            <div class="review-rating pull-right" style="font-size:12px">
-                                                                <i class="fa fa-star{% if cart.rate < 1 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 2 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 3 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 4 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 5 %}-o empty{% endif %}"></i>
+                                                            <div class="product-rating review-rating pull-right" style="font-size:12px">
+                                                                <i class="fa fa-star{% if top.avaregereview < 1%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if top.avaregereview < 2%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if top.avaregereview < 3%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if top.avaregereview < 4%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if top.avaregereview < 5%}-o empty{% endif%}"></i>
+                                                                {{ top.avaregereview |stringformat:".2f"}}
+                                                                <i class="product-card__rating-legend" style="color:#0e8eb3">{{ top.countreview }} Review(s)</i>
                                                             </div>
 
                                                         </div>
                                                     </div>
-
                                                 </div>
-                                                <div class="product-card__rating-legend" style="font-size:12px; margin-top:5px">9 Reviews</div>
                                             </div>
                                             <ul class="product-card__features-list">
                                                 <li>Speed: 750 RPM</li>
@@ -553,22 +561,23 @@
                                             <div class="product-card__rating">
                                                 <div class="product-card__rating-stars">
 
-                                                    <div class="rating">
-                                                        <div class="rating__body single-review">
+                                                    <div class="product__rating">
+                                                        <div class="single-review">
 
-                                                            <div class="review-rating pull-right" style="font-size:12px">
-                                                                <i class="fa fa-star{% if cart.rate < 1 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 2 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 3 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 4 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 5 %}-o empty{% endif %}"></i>
+                                                            <div class="product-rating review-rating pull-right" style="font-size:12px">
+                                                                <i class="fa fa-star{% if special.avaregereview < 1%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if special.avaregereview < 2%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if special.avaregereview < 3%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if special.avaregereview < 4%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if special.avaregereview < 5%}-o empty{% endif%}"></i>
+                                                                {{ special.avaregereview |stringformat:".2f"}}
+                                                                <i class="product-card__rating-legend" style="color:#0e8eb3">{{ special.countreview }} Review(s)</i>
                                                             </div>
 
                                                         </div>
                                                     </div>
 
                                                 </div>
-                                                <div class="product-card__rating-legend" style="font-size:12px; margin-top:5px">7 Reviews</div>
                                             </div>
                                             <ul class="product-card__features-list">
                                                 <li>Speed: 750 RPM</li>
@@ -630,22 +639,22 @@
                                             <div class="product-card__rating">
                                                 <div class="product-card__rating-stars">
 
-                                                    <div class="rating">
-                                                        <div class="rating__body single-review">
+                                                    <div class="product__rating">
+                                                        <div class="single-review">
 
-                                                            <div class="review-rating pull-right" style="font-size:12px">
-                                                                <i class="fa fa-star{% if cart.rate < 1 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 2 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 3 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 4 %}-o empty{% endif %}"></i>
-                                                                <i class="fa fa-star{% if cart.rate < 5 %}-o empty{% endif %}"></i>
+                                                            <div class="product-rating review-rating pull-right" style="font-size:12px">
+                                                                <i class="fa fa-star{% if bottom.avaregereview < 1%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if bottom.avaregereview < 2%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if bottom.avaregereview < 3%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if bottom.avaregereview < 4%}-o empty{% endif%}"></i>
+                                                                <i class="fa fa-star{% if bottom.avaregereview < 5%}-o empty{% endif%}"></i>
+                                                                {{ bottom.avaregereview |stringformat:".2f"}}
+                                                                 <i class="product-card__rating-legend" style="color:#0e8eb3">{{ bottom.countreview }} Review(s)</i>
                                                             </div>
 
                                                         </div>
                                                     </div>
-
                                                 </div>
-                                                <div class="product-card__rating-legend" style="font-size:12px; margin-top:5px">4 Reviews</div>
                                             </div>
                                             <ul class="product-card__features-list">
                                                 <li>Speed: 750 RPM</li>

@@ -79,23 +79,24 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div><!-- .product__gallery / end -->
+                            </div>
+                            <!-- .product__gallery / end -->
+
                             <!-- .product__info -->
                             <div class="product__info">
-                                <div class="product__wishlist-compare"><button type="button"
-                                        class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip"
-                                        data-placement="right" title="Wishlist"><svg width="16px" height="16px">
-                                            <use xlink:href="images/sprite.svg#wishlist-16"></use>
-                                        </svg></button> <button type="button" class="btn btn-sm btn-light btn-svg-icon"
-                                        data-toggle="tooltip" data-placement="right" title="Compare"><svg width="16px"
-                                            height="16px">
-                                            <use xlink:href="images/sprite.svg#compare-16"></use>
-                                        </svg></button></div>
+                                <div class="product__wishlist-compare">
+                                    <button type="button" class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip" data-placement="right" title="Wishlist">
+                                        <svg width="16px" height="16px"><use xlink:href="images/sprite.svg#wishlist-16"></use></svg>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip" data-placement="right" title="Compare">
+                                        <svg width="16px" height="16px"><use xlink:href="images/sprite.svg#compare-16"></use></svg>
+                                    </button>
+                                </div>
                                 <h1 class="product__name">{{ product.title }}</h1>
                                 <div class="product__rating">
                                     <div class="single-review">
 
-                                        <div class="product-rating review-rating pull-right"  style="font-size:12px">
+                                        <div class="product-rating review-rating pull-right" style="font-size:12px">
                                             <i class="fa fa-star{% if product.avaregereview < 1%}-o empty{% endif%}"></i>
                                             <i class="fa fa-star{% if product.avaregereview < 2%}-o empty{% endif%}"></i>
                                             <i class="fa fa-star{% if product.avaregereview < 3%}-o empty{% endif%}"></i>
