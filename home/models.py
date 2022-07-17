@@ -27,6 +27,10 @@ class Setting(models.Model):
     smtpport = models.CharField(blank=True, max_length=5)
 
     icon = models.ImageField(blank=True, upload_to='images/')
+    img_team1 = models.ImageField(blank=True, upload_to='images/')
+    img_team2 = models.ImageField(blank=True, upload_to='images/')
+    img_team3 = models.ImageField(blank=True, upload_to='images/')
+
     facebook = models.CharField(blank=True, max_length=50)
     instagram = models.CharField(blank=True, max_length=50)
     twitter = models.CharField(blank=True, max_length=50)

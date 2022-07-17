@@ -1,6 +1,6 @@
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput
 from django.utils.safestring import mark_safe
 from django.urls import reverse
 from django.db import models
@@ -76,13 +76,6 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
-    # def image(self):
-    #     try:
-    #         url = self.img.url
-    #     except:
-    #         url = ''
-    #     return url
-
     def image_tag(self):
         return mark_safe('<img src="{}" height="50" />'.format(self.image.url))
 
@@ -90,6 +83,20 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('category_detail', kwargs={'slug': self.slug})
+
+    def avaregereview(self):
+        reviews = Comment.objects.filter(product=self, status='True').aggregate(avarage=Avg('rate'))
+        avg = 0
+        if reviews["avarage"] is not None:
+            avg = float(reviews["avarage"])
+        return avg
+
+    def countreview(self):
+        reviews = Comment.objects.filter(product=self, status='True').aggregate(count=Count('id'))
+        cnt = 0
+        if reviews["count"] is not None:
+            cnt = int(reviews["count"])
+        return cnt
 
 
 class Images(models.Model):
@@ -114,13 +121,13 @@ class Comment(models.Model):
         ('True', 'True'),
         ('False', 'False'),
     )
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.CharField(max_length=50, blank=True)
-    comment = models.TextField(max_length=250, blank=True)
+    comment = models.CharField(max_length=250, blank=True)
     rate = models.IntegerField(default=5)
-    status = models.CharField(max_length=10, choices=STATUS, default='New')
     ip = models.CharField(max_length=20, blank=True)
+    status = models.CharField(max_length=10, choices=STATUS, default='New')
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 

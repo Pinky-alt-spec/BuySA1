@@ -112,10 +112,12 @@ def product_details(request, id, slug):
     category = Category.objects.all()
     product = Product.objects.get(pk=id)
     images = Images.objects.filter(product_id=id)
+    comments = Comment.objects.filter(product_id=id, status="True")
 
     context = {
         'category': category,
         'product': product,
         'images': images,
+        'comments': comments,
     }
     return render(request, 'product_details.html', context)

@@ -66,8 +66,13 @@
                                 </td>
                                 <td class="cart-table__column cart-table__column--price" data-title="Price">${{ cart.price }}</td>
                                 <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
-                                    <div class="input-number">
-                                        <input class="form-control input-number__input" value="{{ cart.quantity }}" readonly>
+                                    <div class="product__actions-item">
+                                        <div class="input-number product__quantity"><input name="quantity" id="product-quantity"
+                                                class="input-number__input form-control form-control-lg"
+                                                type="number" min="1" value="1" max="{{ product.amount }}">
+                                            <div class="input-number__add"></div>
+                                            <div class="input-number__sub"></div>
+                                        </div>
                                     </div>
                                 </td>
                                 <td class="cart-table__column cart-table__column--total" data-title="Total">${{ total }}
