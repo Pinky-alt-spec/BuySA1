@@ -1,6 +1,5 @@
- {% load static %}
-
-
+{% load static %}
+{% load mptt_tags %}
 
 <header class="site__header d-lg-block d-none">
     <div class="site-header">
@@ -25,9 +24,9 @@
                                         <div class="departments__submenus-container"></div>
 
                                             <ul class="departments__links">
-                                                {% for category in category %}
+                                                {% recursetree category %}
                                             <li class="departments__item"><a class="departments__item-link"
-                                                    href="/category/{{ node.id }}/{{ node.slug }}">{{ category.title }}<svg class="departments__item-arrow"
+                                                    href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}<svg class="departments__item-arrow"
                                                         width="6px" height="9px">
                                                         <use
                                                             xlink:href="static/images/sprite.svg#arrow-rounded-right-6x9">
@@ -41,7 +40,7 @@
                                                             style="background-image: url('static/images/megamenu/megamenu-1.jpg');">
                                                             <div class="row">
                                                                 <div class="col-3">
-
+                                                                {% if not node.is_leaf_node %}
                                                                     <ul
                                                                         class="megamenu__links megamenu__links--level--0">
 
@@ -51,23 +50,21 @@
 
                                                                             <ul
                                                                                 class="megamenu__links megamenu__links--level--1">
-                                                                                {% for cat in category.get_children %}
                                                                                 <li class="megamenu__item">
-                                                                                    <a href="/category/{{ cat.id }}/{{ cat.slug }}">{{ cat.title }}</a>
+                                                                                    <a href="/category/{{ cat.id }}/{{ cat.slug }}">{{ children }}</a>
                                                                                 </li>
-                                                                                {% endfor %}
                                                                             </ul>
 
                                                                         </li>
                                                                     </ul>
-
+                                                                {% endif %}
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div><!-- .megamenu / end -->
                                                 </div>
                                             </li>
-                                            {% endfor %}
+                                            {% endrecursetree %}
 <!--                                            <li class="departments__item"><a class="departments__item-link"-->
 <!--                                                    href="">Hand Tools <svg class="departments__item-arrow"-->
 <!--                                                        width="6px" height="9px">-->
@@ -1081,8 +1078,7 @@
                                             <li><a href="/user/orders">My Orders</a></li>
                                             <li><a href="/user/comments">My Comments</a></li>
                                             <li><a href="/user/user_update">Edit Profile</a></li>
-                                            <li><a href="account-addresses.html">Addresses</a></li>
-                                            <li><a href="/user/password">Password</a></li>
+                                            <li><a href="/user/password">Change Password</a></li>
                                         </ul>
                                         <div class="account-menu__divider"></div>
                                         <ul class="account-menu__links">

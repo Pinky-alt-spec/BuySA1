@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 
 # Create your views here.
+from order.models import ShopCart
 from .models import Comment, CommentForm
 
 

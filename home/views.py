@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from home.forms import SearchForm
+from order.models import ShopCart
 from product.models import *
 from home.models import *
 from user.models import UserProfile
@@ -21,6 +22,9 @@ def index(request):
     best_bottom = Product.objects.all().order_by('?')[:3]
     product_featured_item = Product.objects.all().order_by('-id')[:1]
 
+    current_user = request.user
+    shopcart = ShopCart.objects.filter(user_id=current_user.id)
+
     page = "home"
 
     context = {
@@ -36,16 +40,23 @@ def index(request):
         'special_offer': special_offer,
         'best_bottom': best_bottom,
         'product_featured_item': product_featured_item,
+        'shopcart': shopcart,
 
     }
     return render(request, 'index.html', context)
 
 
 def about(request):
+    category = Category.objects.all()
     setting = Setting.objects.get(pk=1)
 
+    current_user = request.user
+    shopcart = ShopCart.objects.filter(user_id=current_user.id)
+
     context = {
-        'setting': setting
+        'setting': setting,
+        'shopcart': shopcart,
+        'category': category,
     }
     return render(request, 'about.html', context)
 
@@ -64,12 +75,18 @@ def contact(request):
             messages.success(request, "Your message has been sent, we will be in touch with you shortly")
             return HttpResponseRedirect('/contact')
 
+    category = Category.objects.all()
     setting = Setting.objects.get(pk=1)
     form = ContactForm
+
+    current_user = request.user
+    shopcart = ShopCart.objects.filter(user_id=current_user.id)
 
     context = {
         'setting': setting,
         'form': form,
+        'shopcart': shopcart,
+        'category': category,
     }
     return render(request, 'contact.html', context)
 
@@ -78,46 +95,70 @@ def category_products(request, id, slug):
     category = Category.objects.all()
     products = Product.objects.filter(category_id=id)
 
+    current_user = request.user
+    shopcart = ShopCart.objects.filter(user_id=current_user.id)
+
     context = {
         'category': category,
         'products': products,
+        'shopcart': shopcart,
     }
     return render(request, 'category_products.html', context)
 
 
 def search(request):
-    if request.method == 'POST':
+    if request.method == 'POST': # check post
         form = SearchForm(request.POST)
         if form.is_valid():
-            query = form.cleaned_data['query']
+            query = form.cleaned_data['query'] # get form input data
             catid = form.cleaned_data['catid']
-            if catid == 0:
-                products = Product.objects.filter(title__icontains=query)
+            if catid==0:
+                products=Product.objects.filter(title__icontains=query)  #SELECT * FROM product WHERE title LIKE '%query%'
             else:
-                products = Product.objects.filter(title__icontains=query, category_id=catid)
+                products = Product.objects.filter(title__icontains=query,category_id=catid)
 
             category = Category.objects.all()
-
-            context = {
-                'products': products,
-                'query': query,
-                'category': category,
-            }
+            context = {'products': products, 'query':query,
+                       'category': category }
             return render(request, 'search_products.html', context)
 
     return HttpResponseRedirect('/')
 
 
 def product_details(request, id, slug):
+    query = request.GET.get('q')
+
     category = Category.objects.all()
     product = Product.objects.get(pk=id)
     images = Images.objects.filter(product_id=id)
     comments = Comment.objects.filter(product_id=id, status="True")
+
+    current_user = request.user
+    shopcart = ShopCart.objects.filter(user_id=current_user.id)
 
     context = {
         'category': category,
         'product': product,
         'images': images,
         'comments': comments,
+        'shopcart': shopcart,
     }
+
+    if product.variant != "None":  # Product have variants
+        if request.method == 'POST':  # if we select color
+            variant_id = request.POST.get('variantid')
+            variant = Variants.objects.get(id=variant_id)  # selected product by click color radio
+            colors = Variants.objects.filter(product_id=id, size_id=variant.size_id)
+            sizes = Variants.objects.raw('SELECT * FROM  product_variants  WHERE product_id=%s GROUP BY size_id', [id])
+            query += variant.title + ' Size:' + str(variant.size) + ' Color:' + str(variant.color)
+        else:
+            variants = Variants.objects.filter(product_id=id)
+            colors = Variants.objects.filter(product_id=id, size_id=variants[0].size_id)
+            sizes = Variants.objects.raw('SELECT * FROM  product_variants  WHERE product_id=%s GROUP BY size_id', [id])
+            variant = Variants.objects.get(id=variants[0].id)
+        context.update({'sizes': sizes, 'colors': colors,
+                        'variant': variant, 'query': query
+                        })
+
     return render(request, 'product_details.html', context)
+

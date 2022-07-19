@@ -1004,6 +1004,7 @@ screen and (-ms-high-contrast:active) {
 }
 
 .card-body {
+    position: center;
     padding: 2rem
 }
 
@@ -1065,7 +1066,8 @@ screen and (-ms-high-contrast:active) {
     }
 
     .card-body {
-        padding: 1.5rem
+        position: center;
+        padding: 1.15rem
     }
 }
 
@@ -1082,6 +1084,7 @@ screen and (-ms-high-contrast:active) {
     }
 
     .card-body {
+        position: center;
         padding: 1.375rem
     }
 }

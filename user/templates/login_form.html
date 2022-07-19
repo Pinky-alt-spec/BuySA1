@@ -62,37 +62,12 @@
                                             <svg class="input-check__icon" width="9px" height="7px">
                                                 <use xlink:href="images/sprite.svg#check-9x7"></use>
                                             </svg>
-                                        </span>
+                                        </span><br />
+                                            <small class="form-text text-muted"><p>Are you a new user? <a href="/login">Register</a></p></small>
                                         </span>
                                         <label class="form-check-label" for="login-remember">Remember Me</label>
                                     </div>
                                 </div><button type="submit" class="btn btn-primary mt-4">Login</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 d-flex flex-column mt-4 mt-md-0">
-                    <div class="card flex-grow-1 mb-0">
-                        <div class="card-body">
-                            <h3 class="card-title">Register</h3>
-                            <form method="post">
-                                {% csrf_token %}
-
-                                    {% for field in form %}
-                                    <p>
-                                        {{ field.label_tag }}<br>
-                                        {{ field }}
-
-                                        {% if field.help_text %}
-                                            <small type="">{{ field.help_text }}</small>
-                                        {% endif %}
-                                        {% for error in field.errors %}
-                                            <p style="">{{ error }}</p>
-                                        {% endfor %}
-                                    </p>
-
-                                    {% endfor %}
-                                <button type="submit" class="btn btn-primary mt-4">Register</button>
                             </form>
                         </div>
                     </div>
