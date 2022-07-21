@@ -28,8 +28,16 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Alertify CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <!-- Alertify Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+
+    <!-- jQuery !-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> </script>
+    <!-- jQuery UI !-->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
     <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'UA-97489509-8');</script>
       {% block head %} {% endblock %}
@@ -42,5 +50,26 @@
     {% block content %} {% endblock %}
 
     {% block footer %} {% endblock %}
+
+
+    <!-- Alertify JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script>
+    {% for message in messages %}
+        {% if message.tag == 'success' %}
+            alertify.set('notifier','position', 'top-right');
+            alertify.success('{{ message | safe }}');
+        {% elif message.tags == 'info'%}
+            alertify.set('notifier','position', 'top-right');
+            alertify.info('{{ message | safe }}');
+        {% elif message.tags == 'warning'%}
+            alertify.set('notifier','position', 'top-right');
+            alertify.warning('{{ message | safe }}');
+        {% elif message.tags == 'error'%}
+            alertify.set('notifier','position', 'top-right');
+            alertify.error('{{ message | safe }}');
+        {% endif %}
+    {%  endfor %}
+    </script>
 </body>
 </html>

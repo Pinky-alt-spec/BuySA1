@@ -73,6 +73,12 @@ def shopcart(request):
     return render(request, 'shopcart_products.html', context)
 
 
+def deletefromcart(request, id):
+    ShopCart.objects.filter(id=id).delete()
+    messages.success(request, "Item Deleted From ShopCart")
+    return HttpResponseRedirect('/shopcart')
+
+
 def orderproduct(request):
     category = Category.objects.all()
     current_user = request.user

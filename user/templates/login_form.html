@@ -37,13 +37,13 @@
                     <div class="card flex-grow-1 mb-md-0">
                         <div class="card-body">
                             <h3 class="card-title">Login</h3>
-                                {% if messages %}
-                                      {% for message in messages %}
-                                          <div class="alert alert-{{ message.tags }}" role="alert">
-                                              {{ message }}
-                                          </div>
-                                      {% endfor %}
-                                {% endif %}
+<!--                                {% if messages %}-->
+<!--                                      {% for message in messages %}-->
+<!--                                          <div class="alert alert-{{ message.tags }}" role="alert">-->
+<!--                                              {{ message }}-->
+<!--                                          </div>-->
+<!--                                      {% endfor %}-->
+<!--                                {% endif %}-->
                             <form action="" method="post">
                                 {% csrf_token %}
                                 <div class="form-group">

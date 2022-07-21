@@ -35,6 +35,8 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     path('search/', views.search, name='search'),
+    path('search_auto/', views.search_auto, name='search_auto'),
+    # path('ajaxcolor/', views.ajaxcolor, name='ajaxcolor'),
 
     path('shopcart/', OrderViews.shopcart, name='shopcart'),
     path('register/', UserViews.register_form, name='register_form'),

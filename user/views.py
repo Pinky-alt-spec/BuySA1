@@ -46,6 +46,7 @@ def login_form(request):
             userprofile = UserProfile.objects.get(user_id=current_user.id)
             request.session['userimage'] = userprofile.image.url
 
+            messages.success(request, f"Login Success !! You are logged in as {username}")
             return HttpResponseRedirect('/')
 
         else:

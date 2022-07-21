@@ -22,17 +22,17 @@
                                 <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
                             </svg>
                         </li>
-                        <li class="breadcrumb-item"><a href="">Breadcrumb</a>
+                        <li class="breadcrumb-item"><a href="">{{ catdata.title }} Products</a>
                             <svg class="breadcrumb-arrow" width="6px" height="9px">
                                 <use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use>
                             </svg>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Screwdrivers</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ catdata.title }}</li>
                     </ol>
                 </nav>
             </div>
             <div class="page-header__title">
-                <h1>Screwdrivers</h1>
+                <h1>{{ catdata.title }}</h1>
             </div>
         </div>
     </div>
@@ -932,23 +932,17 @@
                                             class="filters-button__counter">3</span></button></div>
                                 <div class="view-options__layout">
                                     <div class="layout-switcher">
-                                        <div class="layout-switcher__list"><button data-layout="grid-3-sidebar"
-                                                data-with-features="false" title="Grid" type="button"
-                                                class="layout-switcher__button layout-switcher__button--active"><svg
-                                                    width="16px" height="16px">
-                                                    <use xlink:href="images/sprite.svg#layout-grid-16x16"></use>
-                                                </svg></button> <button data-layout="grid-3-sidebar"
-                                                data-with-features="true" title="Grid With Features"
-                                                type="button" class="layout-switcher__button"><svg width="16px"
-                                                    height="16px">
-                                                    <use
-                                                        xlink:href="images/sprite.svg#layout-grid-with-details-16x16">
-                                                    </use>
-                                                </svg></button> <button data-layout="list"
-                                                data-with-features="false" title="List" type="button"
-                                                class="layout-switcher__button"><svg width="16px" height="16px">
-                                                    <use xlink:href="images/sprite.svg#layout-list-16x16"></use>
-                                                </svg></button></div>
+                                        <div class="layout-switcher__list">
+                                            <button data-layout="grid-3-sidebar" data-with-features="false" title="Grid" type="button" class="layout-switcher__button layout-switcher__button--active">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M15.2,16H9.8C9.4,16,9,15.6,9,15.2V9.8C9,9.4,9.4,9,9.8,9h5.4C15.6,9,16,9.4,16,9.8v5.4C16,15.6,15.6,16,15.2,16z M15.2,7 H9.8C9.4,7,9,6.6,9,6.2V0.8C9,0.4,9.4,0,9.8,0h5.4C15.6,0,16,0.4,16,0.8v5.4C16,6.6,15.6,7,15.2,7z M6.2,16H0.8 C0.4,16,0,15.6,0,15.2V9.8C0,9.4,0.4,9,0.8,9h5.4C6.6,9,7,9.4,7,9.8v5.4C7,15.6,6.6,16,6.2,16z M6.2,7H0.8C0.4,7,0,6.6,0,6.2V0.8 C0,0.4,0.4,0,0.8,0h5.4C6.6,0,7,0.4,7,0.8v5.4C7,6.6,6.6,7,6.2,7z"></path></svg>
+                                            </button>
+                                            <button data-layout="grid-3-sidebar" data-with-features="true" title="Grid With Features" type="button" class="layout-switcher__button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M16,0.8v14.4c0,0.4-0.4,0.8-0.8,0.8H9.8C9.4,16,9,15.6,9,15.2V0.8C9,0.4,9.4,0,9.8,0l5.4,0C15.6,0,16,0.4,16,0.8z M7,0.8 v14.4C7,15.6,6.6,16,6.2,16H0.8C0.4,16,0,15.6,0,15.2L0,0.8C0,0.4,0.4,0,0.8,0l5.4,0C6.6,0,7,0.4,7,0.8z"></path></svg>
+                                            </button>
+                                            <button data-layout="list" data-with-features="false" title="List" type="button" class="layout-switcher__button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M15.2,16H0.8C0.4,16,0,15.6,0,15.2V9.8C0,9.4,0.4,9,0.8,9h14.4C15.6,9,16,9.4,16,9.8v5.4C16,15.6,15.6,16,15.2,16z M15.2,7 H0.8C0.4,7,0,6.6,0,6.2V0.8C0,0.4,0.4,0,0.8,0h14.4C15.6,0,16,0.4,16,0.8v5.4C16,6.6,15.6,7,15.2,7z"></path></svg>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="view-options__legend">Showing 6 of 98 products</div>
