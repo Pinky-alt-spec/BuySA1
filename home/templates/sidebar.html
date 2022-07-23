@@ -25,9 +25,9 @@
                                         <div class="departments__submenus-container"></div>
 
                                             <ul class="departments__links">
-                                            {% recursetree category %}
+
                                             <li class="departments__item"><a class="departments__item-link"
-                                                    href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}<svg class="departments__item-arrow"
+                                                    href="/category/{{ node.id }}/{{ node.slug }}">category<svg class="departments__item-arrow"
                                                         width="6px" height="9px">
                                                         <use
                                                             xlink:href="static/images/sprite.svg#arrow-rounded-right-6x9">
@@ -48,15 +48,15 @@
                                                                         <li
                                                                             class="megamenu__item megamenu__item--with-submenu">
                                                                             <a href="">Power Tools</a>
-                                                                            {% if not node.is_leaf_node %}
+
                                                                             <ul
                                                                                 class="megamenu__links megamenu__links--level--1">
 
                                                                                 <li class="megamenu__item">
-                                                                                    <a href="/category/{{ cat.id }}/{{ cat.slug }}">{{ children }}</a>
+                                                                                    <a href="/category/{{ cat.id }}/{{ cat.slug }}"> children </a>
                                                                                 </li>
                                                                             </ul>
-                                                                            {% endif %}
+
                                                                         </li>
                                                                     </ul>
 
@@ -66,7 +66,7 @@
                                                     </div><!-- .megamenu / end -->
                                                 </div>
                                             </li>
-                                             {% endrecursetree %}
+
 
 
 <!--                                            <li class="departments__item"><a class="departments__item-link"-->
@@ -1063,7 +1063,7 @@
                                                 <label for="header-signin-password" class="sr-only">Password</label>
                                                 <div class="account-menu__form-forgot">
                                                     <input name="password" id="header-signin-password" type="password" class="form-control form-control-sm" placeholder="Password">
-                                                    <a href="" class="account-menu__form-forgot-link">Forgot?</a>
+                                                    <a href="{% url 'password_reset' %}" class="account-menu__form-forgot-link">Forgot?</a>
                                                 </div>
                                             </div>
                                             <div class="form-group account-menu__form-button"><button

@@ -10075,8 +10075,8 @@ screen and (max-width:374px) and (-ms-high-contrast:active) {
 }
 
 .profile-card__avatar {
-    width: 90px;
-    height: 90px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     margin-bottom: 16px
 }

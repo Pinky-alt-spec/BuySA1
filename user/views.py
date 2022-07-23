@@ -136,6 +136,8 @@ def user_update(request):
 @login_required(login_url='/login')
 def password_update(request):
     setting = Setting.objects.get(pk=1)
+    category = Category.objects.all()
+
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
@@ -148,8 +150,6 @@ def password_update(request):
             return HttpResponseRedirect('/user/password')
 
     else:
-        category = Category.objects.all()
-        setting = Setting.objects.get(pk=1)
         form = PasswordChangeForm(request.user)
 
         current_user = request.user
