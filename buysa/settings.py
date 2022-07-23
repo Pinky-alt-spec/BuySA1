@@ -81,7 +81,6 @@ CART_SESSION_ID = 'cart'
 
 WSGI_APPLICATION = 'buysa.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 

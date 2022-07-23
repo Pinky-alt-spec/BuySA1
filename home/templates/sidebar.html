@@ -1,4 +1,5 @@
 {% load static %}
+
 {% load mptt_tags %}
 
 <header class="site__header d-lg-block d-none">
@@ -24,9 +25,9 @@
                                         <div class="departments__submenus-container"></div>
 
                                             <ul class="departments__links">
-                                            {% for category in category %}
+                                            {% recursetree category %}
                                             <li class="departments__item"><a class="departments__item-link"
-                                                    href="/category/{{ node.id }}/{{ node.slug }}">{{ category.title }}<svg class="departments__item-arrow"
+                                                    href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}<svg class="departments__item-arrow"
                                                         width="6px" height="9px">
                                                         <use
                                                             xlink:href="static/images/sprite.svg#arrow-rounded-right-6x9">
@@ -47,16 +48,15 @@
                                                                         <li
                                                                             class="megamenu__item megamenu__item--with-submenu">
                                                                             <a href="">Power Tools</a>
-
+                                                                            {% if not node.is_leaf_node %}
                                                                             <ul
                                                                                 class="megamenu__links megamenu__links--level--1">
-                                                                                {% for cat in category.get_children %}
-                                                                                <li class="megamenu__item">
-                                                                                    <a href="/category/{{ cat.id }}/{{ cat.slug }}">{{  cat.title }}</a>
-                                                                                </li>
-                                                                                {% endfor %}
-                                                                            </ul>
 
+                                                                                <li class="megamenu__item">
+                                                                                    <a href="/category/{{ cat.id }}/{{ cat.slug }}">{{ children }}</a>
+                                                                                </li>
+                                                                            </ul>
+                                                                            {% endif %}
                                                                         </li>
                                                                     </ul>
 
@@ -66,7 +66,7 @@
                                                     </div><!-- .megamenu / end -->
                                                 </div>
                                             </li>
-                                                {% endfor %}
+                                             {% endrecursetree %}
 
 
 <!--                                            <li class="departments__item"><a class="departments__item-link"-->
@@ -967,13 +967,14 @@
                                             <circle cx="15" cy="17" r="2"></circle>
                                             <path d="M20,4.4V5l-1.8,6.3c-0.1,0.4-0.5,0.7-1,0.7H6.7c-0.4,0-0.8-0.3-1-0.7L3.3,3.9C3.1,3.3,2.6,3,2.1,3H0.4C0.2,3,0,2.8,0,2.6 V1.4C0,1.2,0.2,1,0.4,1h2.5c1,0,1.8,0.6,2.1,1.6L5.1,3l2.3,6.8c0,0.1,0.2,0.2,0.3,0.2h8.6c0.1,0,0.3-0.1,0.3-0.2l1.3-4.4 C17.9,5.2,17.7,5,17.5,5H9.4C9.2,5,9,4.8,9,4.6V3.4C9,3.2,9.2,3,9.4,3h9.2C19.4,3,20,3.6,20,4.4z"></path>
                                         </svg>
-                                        <span class="indicator__value">3</span>
+                                        <span class="indicator__value">{{ request.session.cart_items }}</span>
                                     </span>
                                 </a>
                                 <div class="indicator__dropdown">
                                     <!-- .dropcart -->
                                     <div class="dropcart dropcart--style--dropdown">
                                         <div class="dropcart__body">
+                                            {% if user.is_authenticated %}
                                             <div class="dropcart__products-list">
                                                 {% for cart in shopcart %}
                                                 <div class="dropcart__product" id="tempDiv">
@@ -1000,6 +1001,7 @@
                                                     </div>
                                                 {% endfor %}
                                             </div>
+
                                             <div class="dropcart__totals">
                                                 <table>
                                                     <tr>
@@ -1022,11 +1024,18 @@
                                             </div>
                                             <div class="dropcart__buttons"><a class="btn btn-secondary"
                                                     href="/shopcart/">View Cart</a> <a class="btn btn-primary"
-                                                    href="/order/orderproduct">Checkout</a></div>
+                                                    href="/order/orderproduct">Checkout</a>
+                                            </div>
+                                            {% else %}
+                                            <div class="dropcart__buttons"><a class="btn btn-secondary"
+                                                href="/login">Login To View Cart</a>
+                                            </div>
+                                            {% endif %}
                                         </div>
                                     </div><!-- .dropcart / end -->
                                 </div>
                             </div>
+
                             <div class="indicator indicator--trigger--click"><a href="/login"
                                     class="indicator__button">
                                 <span class="indicator__area">

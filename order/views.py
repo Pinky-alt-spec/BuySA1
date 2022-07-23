@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.utils.crypto import get_random_string
 
+from home.models import Setting
 from user.models import UserProfile
 from order.models import ShopCart, ShopCartForm, OrderForm, Order, OrderProduct
 from product.models import *
@@ -56,10 +57,13 @@ def addtoshopcart(request, id):
         return HttpResponseRedirect(url)
 
 
+@login_required(login_url='/login')
 def shopcart(request):
+    setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
     current_user = request.user  # access user session info
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
+    request.session['cart_items'] = ShopCart.objects.filter(user_id=current_user.id).count()
 
     total = 0
     for cart in shopcart:
@@ -75,11 +79,14 @@ def shopcart(request):
 
 def deletefromcart(request, id):
     ShopCart.objects.filter(id=id).delete()
+    current_user = request.user
+    request.session['cart_items'] = ShopCart.objects.filter(user_id=current_user.id).count()
     messages.success(request, "Item Deleted From ShopCart")
     return HttpResponseRedirect('/shopcart')
 
 
 def orderproduct(request):
+    setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
     current_user = request.user
     schopcart = ShopCart.objects.filter(user_id=current_user.id)
@@ -143,5 +150,6 @@ def orderproduct(request):
         'total': total,
         'form': form,
         'profile': profile,
+        'setting': setting,
     }
     return render(request, 'order_form.html', context)

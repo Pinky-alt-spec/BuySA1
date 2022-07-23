@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 from buysa import settings
-from home.models import FAQ
+from home.models import FAQ, Setting
 
 from order.models import Order, OrderProduct, ShopCart
 from product.models import Category, Comment
@@ -17,13 +17,12 @@ from user.models import UserProfile
 @login_required(login_url='/login')  # check login
 def user_profile(request):
     category = Category.objects.all()
+    setting = Setting.objects.get(pk=1)
     current_user = request.user  # access User session info
-
     profile = UserProfile.objects.get(user_id=current_user.id)
     orders = Order.objects.filter(user_id=current_user.id).order_by('-id')[:3]
     # return HttpResponse(profile)
 
-    current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
 
     context = {
@@ -31,6 +30,7 @@ def user_profile(request):
         'profile': profile,
         'orders': orders,
         'shopcart': shopcart,
+        'setting': setting,
     }
     return render(request, 'user_profile.html', context)
 
@@ -53,10 +53,12 @@ def login_form(request):
             messages.warning(request, "Login Error !! Username or Password is incorrect")
             return HttpResponseRedirect('/login')
 
+    setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
 
     context = {
-        'category': category
+        'category': category,
+        'setting': setting,
     }
     return render(request, 'login_form.html', context)
 
@@ -70,15 +72,25 @@ def register_form(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
+            # create data in profile table for user
+            current_user = request.user
+            data = UserProfile()
+            data.user_id = current_user.id
+            data.image="images/users/user.png"
+            data.save()
+
+            messages.success(request, 'Your account has been created!')
             return HttpResponseRedirect('/')
         else:
             messages.warning(request, form.errors)
             return HttpResponseRedirect('/register')
 
     form = RegisterForm()
+    setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
 
     context = {
+        'setting': setting,
         'category': category,
         'form': form,
     }
@@ -86,6 +98,7 @@ def register_form(request):
 
 
 def logout_func(request):
+    setting = Setting.objects.get(pk=1)
     logout(request)
     return HttpResponseRedirect('/')
 
@@ -103,6 +116,7 @@ def user_update(request):
             return HttpResponseRedirect('/user')
     else:
         category = Category.objects.all()
+        setting = Setting.objects.get(pk=1)
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.userprofile)
 
@@ -114,12 +128,14 @@ def user_update(request):
             'user_form': user_form,
             'profile_form': profile_form,
             'shopcart': shopcart,
+            'setting': setting,
         }
     return render(request, 'user_update.html', context)
 
 
 @login_required(login_url='/login')
 def password_update(request):
+    setting = Setting.objects.get(pk=1)
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
@@ -133,6 +149,7 @@ def password_update(request):
 
     else:
         category = Category.objects.all()
+        setting = Setting.objects.get(pk=1)
         form = PasswordChangeForm(request.user)
 
         current_user = request.user
@@ -142,16 +159,14 @@ def password_update(request):
             'form': form,
             'category': category,
             'shopcart': shopcart,
+            'setting': setting,
         }
         return render(request, 'user_password.html', context)
 
 
-def address_update(request):
-    return render(request, 'user_address_update.html')
-
-
 @login_required(login_url='/login')
 def user_orders(request):
+    setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
     current_user = request.user
     orders = Order.objects.filter(user_id=current_user.id)
@@ -163,6 +178,7 @@ def user_orders(request):
         'category': category,
         'orders': orders,
         'shopcart': shopcart,
+        'setting': setting,
     }
 
     return render(request, 'user_orders.html', context)
@@ -170,6 +186,7 @@ def user_orders(request):
 
 @login_required(login_url='/login')
 def user_orderdetail(request, id):
+    setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
     current_user = request.user
     order = Order.objects.get(user_id=current_user.id, id=id)
@@ -183,12 +200,14 @@ def user_orderdetail(request, id):
         'order': order,
         'orderitems': orderitems,
         'shopcart': shopcart,
+        'setting': setting,
     }
     return render(request, 'user_order_detail.html', context)
 
 
 @login_required(login_url='/login')
 def user_order_product(request):
+    setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
     current_user = request.user
     order_product = OrderProduct.objects.filter(user_id=current_user.id)
@@ -200,12 +219,14 @@ def user_order_product(request):
         'category': category,
         'order_product': order_product,
         'shopcart': shopcart,
+        'setting': setting,
     }
     return render(request, 'user_order_products.html', context)
 
 
 @login_required(login_url='/login')
 def user_order_product_detail(request, id, oid):
+    setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
     current_user = request.user
     order = Order.objects.get(user_id=current_user.id, id=oid)
@@ -219,11 +240,13 @@ def user_order_product_detail(request, id, oid):
         'order': order,
         'orderitems': orderitems,
         'shopcart': shopcart,
+        'setting': setting,
     }
     return render(request, 'user_order_detail.html', context)
 
 
 def user_comments(request):
+    setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
     current_user = request.user
     comments = Comment.objects.filter(user_id=current_user.id)
@@ -235,12 +258,14 @@ def user_comments(request):
         'category': category,
         'comments': comments,
         'shopcart': shopcart,
+        'setting': setting,
     }
     return render(request, 'user_comments.html', context)
 
 
 @login_required(login_url='/login')  # Check login
 def user_delete_comment(request, id):
+    setting = Setting.objects.get(pk=1)
     current_user = request.user
     Comment.objects.filter(id=id, user_id=current_user.id).delete()
     messages.success(request, 'Comment deleted..')
@@ -248,6 +273,7 @@ def user_delete_comment(request, id):
 
 
 def faq(request):
+    setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
     faq = FAQ.objects.filter(status="True").order_by("ordernumber")
 
@@ -258,5 +284,6 @@ def faq(request):
         'category': category,
         'faq': faq,
         'shopcart': shopcart,
+        'setting': setting,
     }
     return render(request, 'faq.html', context)

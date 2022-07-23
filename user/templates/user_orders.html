@@ -47,7 +47,8 @@
                             <div class="table-responsive-sm">
                                 <table>
                                     <thead>
-                                        <tr style="font-size:12px">
+
+                                        <tr>
                                             <th>Id</th>
                                             <th>Name</th>
                                             <th>Date</th>
@@ -58,8 +59,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+
                                     {% for cart in orders %}
-                                        <tr style="font-size:12px">
+                                        <tr>
                                             <td><a href="/user/orderdetail/{{ cart.id }}">{{ cart.id }}</a></td>
                                             <td>{{ cart.first_name }} {{ cart.last_name }}</td>
                                             <td>{{ cart.create_at }}</td>

@@ -4350,9 +4350,7 @@ screen and (-ms-high-contrast:active) {
     color: inherit
 }
 
-.departments__item--hover .departments__item-link {
-    background: hsla(30, 50%, 100%, .08)
-}
+
 
 .departments__item-arrow {
     top: calc(50% - 5px);

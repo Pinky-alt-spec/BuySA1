@@ -362,11 +362,13 @@
                             {% for newarrival in product_new_arrival%}
                             <div class="block-products-carousel__column">
                                 <div class="block-products-carousel__cell">
-                                    <div class="product-card product-card--hidden-actions"><button
-                                            class="product-card__quickview" type="button"><svg width="16px"
-                                                height="16px">
+                                    <div class="product-card product-card--hidden-actions">
+                                        <button class="product-card__quickview" type="button">
+                                            <svg width="16px" height="16px">
                                                 <use xlink:href="static/images/sprite.svg#quickview-16"></use>
-                                            </svg> <span class="fake-svg-icon"></span></button>
+                                            </svg>
+                                            <span class="fake-svg-icon"></span>
+                                        </button>
                                         <div class="product-card__badges-list">
                                             <div class="product-card__badge product-card__badge--new">{{ newarrival.condition }}</div>
                                         </div>
@@ -630,7 +632,7 @@
                                 <div class="block-product-columns__item">
                                     <div
                                         class="product-card product-card--hidden-actions product-card--layout--horizontal">
-                                        <button class="product-card__quickview" type="button"><svg width="16px"
+                                        <button class="product-card__quickview" type="button" data-target="#exampleModal"><svg width="16px"
                                                 height="16px">
                                                 <use xlink:href="static/images/sprite.svg#quickview-16"></use>
                                             </svg> <span class="fake-svg-icon"></span></button>

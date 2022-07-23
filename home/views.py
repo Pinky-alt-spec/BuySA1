@@ -14,6 +14,7 @@ from user.models import UserProfile
 
 
 def index(request):
+    current_user = request.user
 
     if request.method == 'POST':
         username = request.POST['username']
@@ -31,7 +32,6 @@ def index(request):
             messages.warning(request, "Login Error !! Username or Password is incorrect")
             return HttpResponseRedirect('/login')
 
-
     setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
     product_featured = Product.objects.all().order_by('?')[:16]
@@ -44,9 +44,9 @@ def index(request):
     best_bottom = Product.objects.all().order_by('?')[:3]
     product_featured_item = Product.objects.all().order_by('-id')[:1]
 
-    current_user = request.user
-    shopcart = ShopCart.objects.filter(user_id=current_user.id)
+    request.session['cart_items'] = ShopCart.objects.filter(user_id=current_user.id).count()
 
+    shopcart = ShopCart.objects.filter(user_id=current_user.id)
     # Site Cart Dropdown
     total = 0
     for cart in shopcart:
@@ -120,6 +120,7 @@ def contact(request):
 
 
 def category_products(request, id, slug):
+    setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
     products = Product.objects.filter(category_id=id)
     catdata = Category.objects.get(pk=id)
@@ -129,6 +130,7 @@ def category_products(request, id, slug):
 
     context = {
         'category': category,
+        'setting': setting,
         'products': products,
         'shopcart': shopcart,
         'catdata': catdata,
@@ -148,8 +150,17 @@ def search(request):
                 products = Product.objects.filter(title__icontains=query,category_id=catid)
 
             category = Category.objects.all()
-            context = {'products': products, 'query':query,
-                       'category': category}
+            setting = Setting.objects.get(pk=1)
+            current_user = request.user
+            shopcart = ShopCart.objects.filter(user_id=current_user.id)
+
+            context = {
+                'products': products,
+                'setting': setting,
+                'query': query,
+                'category': category,
+                'shopcart': shopcart,
+            }
             return render(request, 'search_products.html', context)
 
     return HttpResponseRedirect('/')
@@ -172,6 +183,7 @@ def search_auto(request):
 
 
 def product_details(request, id, slug):
+    setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
     product = Product.objects.get(pk=id)
     images = Images.objects.filter(product_id=id)
@@ -184,6 +196,7 @@ def product_details(request, id, slug):
 
     context = {
         'category': category,
+        'setting': setting,
         'product': product,
         'images': images,
         'comments': comments,
