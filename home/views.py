@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 
 from home.forms import SearchForm
-from order.models import ShopCart
+from order.models import ShopCart, Wishlist
 from product.models import *
 from home.models import *
 from user.models import UserProfile
@@ -45,6 +45,7 @@ def index(request):
     product_featured_item = Product.objects.all().order_by('-id')[:1]
 
     request.session['cart_items'] = ShopCart.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
 
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
     # Site Cart Dropdown
@@ -80,6 +81,7 @@ def about(request):
 
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
+    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
 
     context = {
         'setting': setting,
@@ -109,6 +111,7 @@ def contact(request):
 
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
+    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
 
     context = {
         'setting': setting,
@@ -127,6 +130,7 @@ def category_products(request, id, slug):
 
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
+    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
 
     context = {
         'category': category,
@@ -153,6 +157,7 @@ def search(request):
             setting = Setting.objects.get(pk=1)
             current_user = request.user
             shopcart = ShopCart.objects.filter(user_id=current_user.id)
+            request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
 
             context = {
                 'products': products,
@@ -193,6 +198,7 @@ def product_details(request, id, slug):
 
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
+    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
 
     context = {
         'category': category,

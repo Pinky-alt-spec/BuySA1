@@ -52,15 +52,15 @@
                                 <div class="form-group">
                                     <label>Password</label>
                                     <input name="password" type="password" class="form-control" placeholder="Password">
-                                    <small class="form-text text-muted"><a href="{% url 'password_reset' %}">Forgotten Password</a></small>
+                                    <small class="form-text text-muted"><a href="{% url 'password_reset' %}">Forgotten Password?</a></small>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-check">
                                         <span class="form-check-input input-check"><span class="input-check__body">
                                             <input class="input-check__input" type="checkbox" id="login-remember">
                                             <span class="input-check__box"></span>
-                                            <svg class="input-check__icon" width="9px" height="7px">
-                                                <use xlink:href="images/sprite.svg#check-9x7"></use>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="9px" height="7px" class="input-check__icon">
+                                                <path d="M9.002,1.396 L3.461,7.002 L-0.002,3.498 L1.383,2.096 L3.461,4.199 L7.617,-0.006 L9.002,1.396 Z"></path>
                                             </svg>
                                         </span><br />
                                             <small class="form-text text-muted"><p>Are you a new user? <a href="/register">Register</a></p></small>

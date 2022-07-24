@@ -41,6 +41,7 @@ urlpatterns = [
     # path('ajaxcolor/', views.ajaxcolor, name='ajaxcolor'),
 
     path('shopcart/', OrderViews.shopcart, name='shopcart'),
+    path('wishlist/', OrderViews.wishlist, name='wishlist'),
     path('register/', UserViews.register_form, name='register_form'),
     path('login/', UserViews.login_form, name='login_form'),
     path('logout/', UserViews.logout_func, name='logout_func'),

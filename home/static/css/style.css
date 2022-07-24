@@ -14537,3 +14537,16 @@ screen and (-ms-high-contrast:active) {
   content: "\f005";
   color: #FFB656;
 }
+.shopping-cart-table>tfoot>tr>td:not(.empty), .shopping-cart-table>tfoot>tr>th:not(.empty) {
+  padding: 15px;
+  background-color: #F6F7F8;
+  border: 1px solid #DADADA;
+}
+.single-review .review-rating>i.empty {
+  color: #DADADA;
+}
+
+.product .product-rating>i.empty {
+  color: #DADADA;
+}
+

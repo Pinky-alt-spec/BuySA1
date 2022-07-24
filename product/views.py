@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 
 # Create your views here.
-from order.models import ShopCart
+from order.models import ShopCart, Wishlist
 from .models import Comment, CommentForm
 
 
@@ -12,6 +12,8 @@ def index(request):
 
 
 def addcomment(request, id):
+    current_user = request.user
+    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
     url = request.META.get('HTTP_REFERER')  # get last url
     # return HttpResponse(url)
     if request.method == 'POST':  # check post

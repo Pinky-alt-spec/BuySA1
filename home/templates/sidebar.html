@@ -1,7 +1,5 @@
 {% load static %}
 
-{% load mptt_tags %}
-
 <header class="site__header d-lg-block d-none">
     <div class="site-header">
         <div class="site-header__nav-panel">
@@ -24,48 +22,42 @@
                                     <div class="departments__links-wrapper">
                                         <div class="departments__submenus-container"></div>
 
-                                            <ul class="departments__links">
+                                            {% load mptt_tags %}
 
-                                            <li class="departments__item"><a class="departments__item-link"
-                                                    href="/category/{{ node.id }}/{{ node.slug }}">category<svg class="departments__item-arrow"
-                                                        width="6px" height="9px">
-                                                        <use
-                                                            xlink:href="static/images/sprite.svg#arrow-rounded-right-6x9">
-                                                        </use>
-                                                    </svg></a>
-                                                <div
-                                                    class="departments__submenu departments__submenu--type--megamenu departments__submenu--size--xl">
+                                            <ul class="departments__links">
+                                            {% recursetree category %}
+                                            <li class="departments__item">
+                                                <a class="departments__item-link" href="/category/{{ node.id }}/{{ node.slug }}">{{ node.title }}
+                                                    <svg class="departments__item-arrow" width="6px" height="9px">
+                                                        <use xlink:href="static/images/sprite.svg#arrow-rounded-right-6x9"></use>
+                                                    </svg>
+                                                </a>
+                                                <div class="departments__submenu departments__submenu--type--megamenu departments__submenu--size--xl">
                                                     <!-- .megamenu -->
                                                     <div class="megamenu megamenu--departments">
-                                                        <div class="megamenu__body"
-                                                            style="background-image: url('static/images/megamenu/megamenu-1.jpg');">
+                                                        <div class="megamenu__body" style="background-image: url('static/images/megamenu/megamenu-1.jpg');">
                                                             <div class="row">
                                                                 <div class="col-3">
 
-                                                                    <ul
-                                                                        class="megamenu__links megamenu__links--level--0">
-
-                                                                        <li
-                                                                            class="megamenu__item megamenu__item--with-submenu">
+                                                                    {% if not node.is_leaf_node %}
+                                                                    <ul class="megamenu__links megamenu__links--level--0">
+<!--                                                                        <li class="megamenu__item megamenu__item&#45;&#45;with-submenu">-->
                                                                             <a href="">Power Tools</a>
-
-                                                                            <ul
-                                                                                class="megamenu__links megamenu__links--level--1">
-
-                                                                                <li class="megamenu__item">
-                                                                                    <a href="/category/{{ cat.id }}/{{ cat.slug }}"> children </a>
-                                                                                </li>
+                                                                            <ul class="megamenu__links megamenu__links--level--1">
+<!--                                                                                <li class="megamenu__item">-->
+                                                                                    <a href="#">{{ children }}</a>
+<!--                                                                                </li>-->
                                                                             </ul>
-
-                                                                        </li>
+<!--                                                                        </li>-->
                                                                     </ul>
-
+                                                                    {% endif %}
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div><!-- .megamenu / end -->
                                                 </div>
                                             </li>
+                                                {% endrecursetree %}
 
 
 
@@ -950,12 +942,12 @@
                         <!-- .nav-links / end -->
                         <div class="nav-panel__indicators">
                             <div class="indicator">
-                                <a href="wishlist.html" class="indicator__button">
+                                <a href="/wishlist" class="indicator__button">
                                     <span class="indicator__area">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
                                             <path d="M14,3c2.2,0,4,1.8,4,4c0,4-5.2,10-8,10S2,11,2,7c0-2.2,1.8-4,4-4c1,0,1.9,0.4,2.7,1L10,5.2L11.3,4C12.1,3.4,13,3,14,3 M14,1 c-1.5,0-2.9,0.6-4,1.5C8.9,1.6,7.5,1,6,1C2.7,1,0,3.7,0,7c0,5,6,12,10,12s10-7,10-12C20,3.7,17.3,1,14,1L14,1z"></path>
                                         </svg>
-                                        <span class="indicator__value">0</span>
+                                        <span class="indicator__value">{{ request.session.wish_items }}</span>
                                     </span>
                                 </a>
                             </div>
@@ -1080,14 +1072,14 @@
                                                 <img src="{{ request.session.userimage }}" alt="">
                                             </div>
                                             <div class="account-menu__user-info">
-                                                <div class="account-menu__user-name">{{ user.first_name }} {{ user.last_name }}</div>
-                                                <div class="account-menu__user-email">{{ user.email }}</div>
+                                                <div class="account-menu__user-name">{{ user.first_name | truncatechars:11 }} {{ user.last_name | truncatechars:11 }}</div>
+                                                <div class="account-menu__user-email">{{ user.email | truncatechars:23 }}</div>
                                             </div>
                                         </a>
                                         <div class="account-menu__divider"></div>
                                         <ul class="account-menu__links">
                                             <li><a href="/user">Dashboard</a></li>
-                                            <li><a href="/user/favorite">My Favorite</a></li>
+                                            <li><a href="/wishlist">My Favorite</a></li>
                                             <li><a href="/user/orders">My Orders</a></li>
                                             <li><a href="/user/comments">My Comments</a></li>
                                             <li><a href="/user/user_update">Edit Profile</a></li>
@@ -1110,3 +1102,46 @@
     </div>
 </header>
 
+<!-- quickview-modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="exampleModal">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content"></div>
+        <div class="quickview"><button class="quickview__close" type="button"><svg width="20px" height="20px"><use xlink:href="images/sprite.svg#cross-20"></use></svg></button><div class="product product--layout--quickview" data-layout="quickview"><div class="product__content"><!-- .product__gallery --><div class="product__gallery"><div class="product-gallery"><div class="product-gallery__featured"><button class="product-gallery__zoom"><svg width="24px" height="24px"><use xlink:href="images/sprite.svg#zoom-in-24"></use></svg></button><div class="owl-carousel owl-loaded owl-drag" id="product-image"><div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 2180px;"><div class="owl-item active" style="width: 436px;"><div class="product-image product-image--location--gallery"><!--
+                                The data-width and data-height attributes must contain the size of a larger version
+                                of the product image.
+
+                                If you do not know the image size, you can remove the data-width and data-height
+                                attribute, in which case the width and height will be obtained from the naturalWidth
+                                and naturalHeight property of img.product-image__img.
+                                --> <a href="images/products/product-16.jpg" data-width="700" data-height="700" class="product-image__body" target="_blank"><img class="product-image__img" src="images/products/product-16.jpg" alt=""></a></div></div><div class="owl-item" style="width: 436px;"><div class="product-image product-image--location--gallery"><!--
+                                The data-width and data-height attributes must contain the size of a larger version
+                                of the product image.
+
+                                If you do not know the image size, you can remove the data-width and data-height
+                                attribute, in which case the width and height will be obtained from the naturalWidth
+                                and naturalHeight property of img.product-image__img.
+                                --> <a href="images/products/product-16-1.jpg" data-width="700" data-height="700" class="product-image__body" target="_blank"><img class="product-image__img" src="images/products/product-16-1.jpg" alt=""></a></div></div><div class="owl-item" style="width: 436px;"><div class="product-image product-image--location--gallery"><!--
+                                The data-width and data-height attributes must contain the size of a larger version
+                                of the product image.
+
+                                If you do not know the image size, you can remove the data-width and data-height
+                                attribute, in which case the width and height will be obtained from the naturalWidth
+                                and naturalHeight property of img.product-image__img.
+                                --> <a href="images/products/product-16-2.jpg" data-width="700" data-height="700" class="product-image__body" target="_blank"><img class="product-image__img" src="images/products/product-16-2.jpg" alt=""></a></div></div><div class="owl-item" style="width: 436px;"><div class="product-image product-image--location--gallery"><!--
+                                The data-width and data-height attributes must contain the size of a larger version
+                                of the product image.
+
+                                If you do not know the image size, you can remove the data-width and data-height
+                                attribute, in which case the width and height will be obtained from the naturalWidth
+                                and naturalHeight property of img.product-image__img.
+                                --> <a href="images/products/product-16-3.jpg" data-width="700" data-height="700" class="product-image__body" target="_blank"><img class="product-image__img" src="images/products/product-16-3.jpg" alt=""></a></div></div><div class="owl-item" style="width: 436px;"><div class="product-image product-image--location--gallery"><!--
+                                The data-width and data-height attributes must contain the size of a larger version
+                                of the product image.
+
+                                If you do not know the image size, you can remove the data-width and data-height
+                                attribute, in which case the width and height will be obtained from the naturalWidth
+                                and naturalHeight property of img.product-image__img.
+                                --> <a href="images/products/product-16-4.jpg" data-width="700" data-height="700" class="product-image__body" target="_blank"><img class="product-image__img" src="images/products/product-16-4.jpg" alt=""></a></div></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div><div class="owl-dots disabled"></div></div></div><div class="product-gallery__carousel"><div class="owl-carousel owl-loaded owl-drag" id="product-carousel"><div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 563px;"><div class="owl-item active" style="width: 102.5px; margin-right: 10px;"><a href="images/products/product-16.jpg" class="product-image product-gallery__carousel-item product-gallery__carousel-item--active"><div class="product-image__body"><img class="product-image__img product-gallery__carousel-image" src="images/products/product-16.jpg" alt=""></div></a></div><div class="owl-item active" style="width: 102.5px; margin-right: 10px;"><a href="images/products/product-16-1.jpg" class="product-image product-gallery__carousel-item"><div class="product-image__body"><img class="product-image__img product-gallery__carousel-image" src="images/products/product-16-1.jpg" alt=""></div></a></div><div class="owl-item active" style="width: 102.5px; margin-right: 10px;"><a href="images/products/product-16-2.jpg" class="product-image product-gallery__carousel-item"><div class="product-image__body"><img class="product-image__img product-gallery__carousel-image" src="images/products/product-16-2.jpg" alt=""></div></a></div><div class="owl-item active" style="width: 102.5px; margin-right: 10px;"><a href="images/products/product-16-3.jpg" class="product-image product-gallery__carousel-item"><div class="product-image__body"><img class="product-image__img product-gallery__carousel-image" src="images/products/product-16-3.jpg" alt=""></div></a></div><div class="owl-item" style="width: 102.5px; margin-right: 10px;"><a href="images/products/product-16-4.jpg" class="product-image product-gallery__carousel-item"><div class="product-image__body"><img class="product-image__img product-gallery__carousel-image" src="images/products/product-16-4.jpg" alt=""></div></a></div></div></div><div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div><div class="owl-dots disabled"></div></div></div></div></div><!-- .product__gallery / end --><!-- .product__info --><div class="product__info"><div class="product__wishlist-compare"><button type="button" class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip" data-placement="right" title="Wishlist"><svg width="16px" height="16px"><use xlink:href="images/sprite.svg#wishlist-16"></use></svg></button> <button type="button" class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip" data-placement="right" title="Compare"><svg width="16px" height="16px"><use xlink:href="images/sprite.svg#compare-16"></use></svg></button></div><h1 class="product__name">Brandix Screwdriver SCREW1500ACC</h1><div class="product__rating"><div class="product__rating-stars"><div class="rating"><div class="rating__body"><svg class="rating__star rating__star--active" width="13px" height="12px"><g class="rating__fill"><use xlink:href="images/sprite.svg#star-normal"></use></g><g class="rating__stroke"><use xlink:href="images/sprite.svg#star-normal-stroke"></use></g></svg><div class="rating__star rating__star--only-edge rating__star--active"><div class="rating__fill"><div class="fake-svg-icon"></div></div><div class="rating__stroke"><div class="fake-svg-icon"></div></div></div><svg class="rating__star rating__star--active" width="13px" height="12px"><g class="rating__fill"><use xlink:href="images/sprite.svg#star-normal"></use></g><g class="rating__stroke"><use xlink:href="images/sprite.svg#star-normal-stroke"></use></g></svg><div class="rating__star rating__star--only-edge rating__star--active"><div class="rating__fill"><div class="fake-svg-icon"></div></div><div class="rating__stroke"><div class="fake-svg-icon"></div></div></div><svg class="rating__star rating__star--active" width="13px" height="12px"><g class="rating__fill"><use xlink:href="images/sprite.svg#star-normal"></use></g><g class="rating__stroke"><use xlink:href="images/sprite.svg#star-normal-stroke"></use></g></svg><div class="rating__star rating__star--only-edge rating__star--active"><div class="rating__fill"><div class="fake-svg-icon"></div></div><div class="rating__stroke"><div class="fake-svg-icon"></div></div></div><svg class="rating__star rating__star--active" width="13px" height="12px"><g class="rating__fill"><use xlink:href="images/sprite.svg#star-normal"></use></g><g class="rating__stroke"><use xlink:href="images/sprite.svg#star-normal-stroke"></use></g></svg><div class="rating__star rating__star--only-edge rating__star--active"><div class="rating__fill"><div class="fake-svg-icon"></div></div><div class="rating__stroke"><div class="fake-svg-icon"></div></div></div><svg class="rating__star rating__star--active" width="13px" height="12px"><g class="rating__fill"><use xlink:href="images/sprite.svg#star-normal"></use></g><g class="rating__stroke"><use xlink:href="images/sprite.svg#star-normal-stroke"></use></g></svg><div class="rating__star rating__star--only-edge rating__star--active"><div class="rating__fill"><div class="fake-svg-icon"></div></div><div class="rating__stroke"><div class="fake-svg-icon"></div></div></div></div></div></div><div class="product__rating-legend"><a href="">7 Reviews</a><span>/</span><a href="">Write A Review</a></div></div><div class="product__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ornare, mi in ornare elementum, libero nibh lacinia urna, quis convallis lorem erat at purus. Maecenas eu varius nisi.</div><ul class="product__features"><li>Speed: 750 RPM</li><li>Power Source: Cordless-Electric</li><li>Battery Cell Type: Lithium</li><li>Voltage: 20 Volts</li><li>Battery Capacity: 2 Ah</li></ul><ul class="product__meta"><li class="product__meta-availability">Availability: <span class="text-success">In Stock</span></li><li>Brand: <a href="">Wakita</a></li><li>SKU: 83690/32</li></ul></div><!-- .product__info / end --><!-- .product__sidebar --><div class="product__sidebar"><div class="product__availability">Availability: <span class="text-success">In Stock</span></div><div class="product__prices">$1,499.00</div><!-- .product__options --><form class="product__options"><div class="form-group product__option"><label class="product__option-label">Color</label><div class="input-radio-color"><div class="input-radio-color__list"><label class="input-radio-color__item input-radio-color__item--white" style="color: #fff;" data-toggle="tooltip" title="White"><input type="radio" name="color"> <span></span></label> <label class="input-radio-color__item" style="color: #ffd333;" data-toggle="tooltip" title="Yellow"><input type="radio" name="color"> <span></span></label> <label class="input-radio-color__item" style="color: #ff4040;" data-toggle="tooltip" title="Red"><input type="radio" name="color"> <span></span></label> <label class="input-radio-color__item input-radio-color__item--disabled" style="color: #4080ff;" data-toggle="tooltip" title="Blue"><input type="radio" name="color" disabled="disabled"> <span></span></label></div></div></div><div class="form-group product__option"><label class="product__option-label">Material</label><div class="input-radio-label"><div class="input-radio-label__list"><label><input type="radio" name="material"> <span>Metal</span></label> <label><input type="radio" name="material"> <span>Wood</span></label> <label><input type="radio" name="material" disabled="disabled"> <span>Plastic</span></label></div></div></div><div class="form-group product__option"><label class="product__option-label" for="product-quantity">Quantity</label><div class="product__actions"><div class="product__actions-item"><div class="input-number product__quantity"><input id="product-quantity" class="input-number__input form-control form-control-lg" type="number" min="1" value="1"><div class="input-number__add"></div><div class="input-number__sub"></div></div></div><div class="product__actions-item product__actions-item--addtocart"><button class="btn btn-primary btn-lg">Add to cart</button></div><div class="product__actions-item product__actions-item--wishlist"><button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist"><svg width="16px" height="16px"><use xlink:href="images/sprite.svg#wishlist-16"></use></svg></button></div><div class="product__actions-item product__actions-item--compare"><button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Compare"><svg width="16px" height="16px"><use xlink:href="images/sprite.svg#compare-16"></use></svg></button></div></div></div></form><!-- .product__options / end --></div><!-- .product__end --><div class="product__footer"><div class="product__tags tags"><div class="tags__list"><a href="">Mounts</a> <a href="">Electrodes</a> <a href="">Chainsaws</a></div></div><div class="product__share-links share-links"><ul class="share-links__list"><li class="share-links__item share-links__item--type--like"><a href="">Like</a></li><li class="share-links__item share-links__item--type--tweet"><a href="">Tweet</a></li><li class="share-links__item share-links__item--type--pin"><a href="">Pin It</a></li><li class="share-links__item share-links__item--type--counter"><a href="">4K</a></li></ul></div></div></div></div></div>
+    </div>
+</div>
+<!-- quickview-modal / end -->
