@@ -23,6 +23,8 @@ from django.contrib.auth import views as auth_views
 from home import views
 from order import views as OrderViews
 from user import views as UserViews
+from django.views.generic import TemplateView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,6 +35,7 @@ urlpatterns = [
     path('order/', include('order.urls')),
     path('user/', include('user.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('reacttest/', TemplateView.as_view(template_name="index.html")),
 
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
@@ -47,25 +50,32 @@ urlpatterns = [
     path('logout/', UserViews.logout_func, name='logout_func'),
     path('faq/', UserViews.faq, name='faq'),
 
-    path('category/<int:id>/<slug:slug>', views.category_products, name='category_products'),
-    path('product/<int:id>/<slug:slug>', views.product_details, name='product_details'),
+    path('category/<int:id>/<slug:slug>',
+         views.category_products, name='category_products'),
+    path('product/<int:id>/<slug:slug>',
+         views.product_details, name='product_details'),
 
     # Forgot Password Authentication
     path('reset_password/',
-         auth_views.PasswordResetView.as_view(template_name="passwords/password_reset.html"),
+         auth_views.PasswordResetView.as_view(
+             template_name="passwords/password_reset.html"),
          name="password_reset"),
 
     path('reset_password_sent/',
-         auth_views.PasswordResetDoneView.as_view(template_name="passwords/password_reset_sent.html"),
+         auth_views.PasswordResetDoneView.as_view(
+             template_name="passwords/password_reset_sent.html"),
          name="password_reset_done"),
 
     path('reset/<uidb64>/<token>/',
-         auth_views.PasswordResetConfirmView.as_view(template_name="passwords/password_reset_form.html"),
+         auth_views.PasswordResetConfirmView.as_view(
+             template_name="passwords/password_reset_form.html"),
          name="password_reset_confirm"),
 
     path('reset_password_complete/',
-         auth_views.PasswordResetCompleteView.as_view(template_name="passwords/password_reset_complete.html"),
+         auth_views.PasswordResetCompleteView.as_view(
+             template_name="passwords/password_reset_complete.html"),
          name="password_reset_complete"),
 ]
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

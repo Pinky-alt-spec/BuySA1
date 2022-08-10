@@ -11,6 +11,19 @@ from order.models import ShopCart, Wishlist
 from product.models import *
 from home.models import *
 from user.models import UserProfile
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .serializers import SettingsSerializer
+from home.models import Setting
+from product.models import Category
+
+
+@api_view(["GET"])
+def api(request):
+    settings = Category.objects.all()
+    serializer = SettingsSerializer(settings, many=True)
+    context = json.loads(json.dumps(serializer.data))
+    return render(request, 'header-demo.html', {"data": context})
 
 
 def index(request):
@@ -29,7 +42,8 @@ def index(request):
             return HttpResponseRedirect('/')
 
         else:
-            messages.warning(request, "Login Error !! Username or Password is incorrect")
+            messages.warning(
+                request, "Login Error !! Username or Password is incorrect")
             return HttpResponseRedirect('/login')
 
     setting = Setting.objects.get(pk=1)
@@ -44,8 +58,10 @@ def index(request):
     best_bottom = Product.objects.all().order_by('?')[:3]
     product_featured_item = Product.objects.all().order_by('-id')[:1]
 
-    request.session['cart_items'] = ShopCart.objects.filter(user_id=current_user.id).count()
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['cart_items'] = ShopCart.objects.filter(
+        user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
     # Site Cart Dropdown
@@ -81,7 +97,8 @@ def about(request):
 
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     context = {
         'setting': setting,
@@ -102,7 +119,8 @@ def contact(request):
             data.message = form.cleaned_data['message']
             data.ip = request.META.get('REMOTE_ADDR')
             data.save()
-            messages.success(request, "Your message has been sent, we will be in touch with you shortly")
+            messages.success(
+                request, "Your message has been sent, we will be in touch with you shortly")
             return HttpResponseRedirect('/contact')
 
     category = Category.objects.all()
@@ -111,7 +129,8 @@ def contact(request):
 
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     context = {
         'setting': setting,
@@ -130,7 +149,8 @@ def category_products(request, id, slug):
 
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     context = {
         'category': category,
@@ -143,21 +163,24 @@ def category_products(request, id, slug):
 
 
 def search(request):
-    if request.method == 'POST': # check post
+    if request.method == 'POST':  # check post
         form = SearchForm(request.POST)
         if form.is_valid():
-            query = form.cleaned_data['query'] # get form input data
+            query = form.cleaned_data['query']  # get form input data
             catid = form.cleaned_data['catid']
-            if catid==0:
-                products=Product.objects.filter(title__icontains=query)  #SELECT * FROM product WHERE title LIKE '%query%'
+            if catid == 0:
+                # SELECT * FROM product WHERE title LIKE '%query%'
+                products = Product.objects.filter(title__icontains=query)
             else:
-                products = Product.objects.filter(title__icontains=query,category_id=catid)
+                products = Product.objects.filter(
+                    title__icontains=query, category_id=catid)
 
             category = Category.objects.all()
             setting = Setting.objects.get(pk=1)
             current_user = request.user
             shopcart = ShopCart.objects.filter(user_id=current_user.id)
-            request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+            request.session['wish_items'] = Wishlist.objects.filter(
+                user_id=current_user.id).count()
 
             context = {
                 'products': products,
@@ -183,7 +206,7 @@ def search_auto(request):
         data = json.dumps(results)
     else:
         data = 'fail'
-        
+
     mimetype = 'application/json'
 
     return HttpResponse(data, mimetype)
@@ -200,7 +223,8 @@ def product_details(request, id, slug):
 
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     context = {
         'category': category,

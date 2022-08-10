@@ -1,0 +1,17 @@
+{% if data %}
+<ul>
+    {% for question in data %}
+    {% if question.parent == null %}
+    <a>X</a>
+    {% if question.id == int(question.parent) %}
+    <bold>d</bold>
+    {% endif %}
+
+    {% else %}
+    <a>y</a>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% else %}
+<p>No polls are available.</p>
+{% endif %}

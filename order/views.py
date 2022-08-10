@@ -20,7 +20,8 @@ def addtoshopcart(request, id):
     url = request.META.get('HTTP_REFERER')  # get last url
     current_user = request.user  # access user session info
 
-    checkproduct = ShopCart.objects.filter(product_id=id)  # check product in shopcart
+    checkproduct = ShopCart.objects.filter(
+        product_id=id)  # check product in shopcart
     if checkproduct:
         control = 1  # the product is in the cart
     else:
@@ -63,7 +64,8 @@ def shopcart(request):
     category = Category.objects.all()
     current_user = request.user  # access user session info
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
-    request.session['cart_items'] = ShopCart.objects.filter(user_id=current_user.id).count()
+    request.session['cart_items'] = ShopCart.objects.filter(
+        user_id=current_user.id).count()
 
     total = 0
     for cart in shopcart:
@@ -83,7 +85,8 @@ def addtowishlist(request, id):
     current_user = request.user  # access user session info
     schopcart = ShopCart.objects.filter(user_id=current_user.id)
 
-    checkproduct = Wishlist.objects.filter(product_id=id)  # check product in shopcart
+    checkproduct = Wishlist.objects.filter(
+        product_id=id)  # check product in shopcart
     if checkproduct:
         control = 1  # the product is in the cart
     else:
@@ -126,7 +129,8 @@ def wishlist(request):
     category = Category.objects.all()
     current_user = request.user  # access user session info
     wishlist = Wishlist.objects.filter(user_id=current_user.id)
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
 
@@ -146,8 +150,10 @@ def wishlist(request):
 def deletefromcart(request, id):
     ShopCart.objects.filter(id=id).delete()
     current_user = request.user
-    request.session['cart_items'] = ShopCart.objects.filter(user_id=current_user.id).count()
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['cart_items'] = ShopCart.objects.filter(
+        user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
     messages.success(request, "Item Deleted From ShopCart")
     return HttpResponseRedirect('/shopcart')
 
@@ -157,7 +163,8 @@ def orderproduct(request):
     category = Category.objects.all()
     current_user = request.user
     schopcart = ShopCart.objects.filter(user_id=current_user.id)
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
     # profile = UserProfile.objects.get(user_id=current_user.id)
     total = 0
     for cart in schopcart:
@@ -199,9 +206,11 @@ def orderproduct(request):
                 product.save()
                 # **********************<>*********************
 
-            ShopCart.objects.filter(user_id=current_user.id).delete()  # clear & delete shopcart
+            # clear & delete shopcart
+            ShopCart.objects.filter(user_id=current_user.id).delete()
             request.session['cart_items'] = 0
-            messages.success(request, "Your Order has been completed. Thank You!")
+            messages.success(
+                request, "Your Order has been completed. Thank You!")
             return render(request, 'order_complete.html',
                           {'ordercode': ordercode, 'category': category, 'schopcart': schopcart})
 

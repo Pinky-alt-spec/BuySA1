@@ -22,7 +22,8 @@ def user_profile(request):
     current_user = request.user  # access User session info
     profile = UserProfile.objects.get(user_id=current_user.id)
     orders = Order.objects.filter(user_id=current_user.id).order_by('-id')[:3]
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
     # return HttpResponse(profile)
 
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
@@ -46,14 +47,17 @@ def login_form(request):
             login(request, user)
             current_user = request.user
             userprofile = UserProfile.objects.get(user_id=current_user.id)
-            request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+            request.session['wish_items'] = Wishlist.objects.filter(
+                user_id=current_user.id).count()
             request.session['userimage'] = userprofile.image.url
 
-            messages.success(request, f"Login Success !! You are logged in as {username}")
+            messages.success(
+                request, f"Login Success !! You are logged in as {username}")
             return HttpResponseRedirect('/')
 
         else:
-            messages.warning(request, "Login Error !! Username or Password is incorrect")
+            messages.warning(
+                request, "Login Error !! Username or Password is incorrect")
             return HttpResponseRedirect('/login')
 
     setting = Setting.objects.get(pk=1)
@@ -79,7 +83,7 @@ def register_form(request):
             current_user = request.user
             data = UserProfile()
             data.user_id = current_user.id
-            data.image="images/users/user.png"
+            data.image = "images/users/user.png"
             data.save()
 
             messages.success(request, 'Your account has been created!')
@@ -89,7 +93,8 @@ def register_form(request):
             return HttpResponseRedirect('/register')
 
     current_user = request.user
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     form = RegisterForm()
     setting = Setting.objects.get(pk=1)
@@ -112,8 +117,10 @@ def logout_func(request):
 @login_required(login_url='/login')
 def user_update(request):
     if request.method == 'POST':
-        user_form = UserUpdateForm(request.POST, instance=request.user)  # request.user is user data
-        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
+        # request.user is user data
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(
+            request.POST, request.FILES, instance=request.user.userprofile)
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
@@ -128,7 +135,8 @@ def user_update(request):
 
         current_user = request.user
         shopcart = ShopCart.objects.filter(user_id=current_user.id)
-        request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+        request.session['wish_items'] = Wishlist.objects.filter(
+            user_id=current_user.id).count()
 
         context = {
             'category': category,
@@ -145,17 +153,20 @@ def password_update(request):
     setting = Setting.objects.get(pk=1)
     category = Category.objects.all()
     current_user = request.user
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important
-            messages.success(request, 'Your password was successfully updated!')
+            messages.success(
+                request, 'Your password was successfully updated!')
             return HttpResponseRedirect('/user')
         else:
-            messages.error(request, 'Incorrect Username or Password.<br>' + str(form.errors))
+            messages.error(
+                request, 'Incorrect Username or Password.<br>' + str(form.errors))
             return HttpResponseRedirect('/user/password')
 
     else:
@@ -179,7 +190,8 @@ def user_orders(request):
     category = Category.objects.all()
     current_user = request.user
     orders = Order.objects.filter(user_id=current_user.id)
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
@@ -201,7 +213,8 @@ def user_orderdetail(request, id):
     current_user = request.user
     order = Order.objects.get(user_id=current_user.id, id=id)
     orderitems = OrderProduct.objects.filter(order_id=id)
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
@@ -225,7 +238,8 @@ def user_order_product(request):
 
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     context = {
         'category': category,
@@ -243,7 +257,8 @@ def user_order_product_detail(request, id, oid):
     current_user = request.user
     order = Order.objects.get(user_id=current_user.id, id=oid)
     orderitems = OrderProduct.objects.filter(id=id, user_id=current_user.id)
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
@@ -266,7 +281,8 @@ def user_comments(request):
 
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     context = {
         'category': category,
@@ -283,7 +299,8 @@ def user_delete_comment(request, id):
     current_user = request.user
     Comment.objects.filter(id=id, user_id=current_user.id).delete()
     current_user = request.user
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
     messages.success(request, 'Comment deleted..')
     return HttpResponseRedirect('/user/comments')
 
@@ -295,7 +312,8 @@ def faq(request):
 
     current_user = request.user
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     context = {
         'category': category,
