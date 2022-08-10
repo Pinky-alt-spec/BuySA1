@@ -245,6 +245,8 @@ def search_auto(request):
 
     return HttpResponse(data, mimetype)
 
+# def wishlist(request):
+
 
 def product_details(request, id, slug):
     setting = Setting.objects.get(pk=1)
