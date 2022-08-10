@@ -19,42 +19,50 @@ def index(request):
 def addtoshopcart(request, id):
     url = request.META.get('HTTP_REFERER')  # get last url
     current_user = request.user  # access user session info
+    data = ShopCart()
+    data.user_id = current_user.id
+    data.product_id = id
+    data.quantity = 1
+    data.save()
+    messages.success(request, "Product added to Shopcart")
+    return HttpResponseRedirect(url)
 
-    checkproduct = ShopCart.objects.filter(product_id=id)  # check product in shopcart
-    if checkproduct:
-        control = 1  # the product is in the cart
-    else:
-        control = 0  # the product is not in the cart
+    # checkproduct = ShopCart.objects.filter(
+    #     product_id=id)  # check product in shopcart
+    # if checkproduct:
+    #     control = 1  # the product is in the cart
+    # else:
+    #     control = 0  # the product is not in the cart
 
-    if request.method == "POST":
-        form = ShopCartForm(request.POST)
-        if form.is_valid():
-            if control == 1:  # update shopcart
-                data = ShopCart.objects.get(product_id=id)
-                data.quantity += form.cleaned_data['quantity']
-                data.save()  # save data
-            else:
-                data = ShopCart()
-                data.user_id = current_user.id
-                data.product_id = id
-                data.quantity = form.cleaned_data['quantity']
-                data.save()
-        messages.success(request, "Product added to Shopcart")
-        return HttpResponseRedirect(url)
+    # if request.method == "POST":
+    #     form = ShopCartForm(request.POST)
+    #     if form.is_valid():
+    #         if control == 1:  # update shopcart
+    #             data = ShopCart.objects.get(product_id=id)
+    #             data.quantity += form.cleaned_data['quantity']
+    #             data.save()  # save data
+    #         else:
+    #             data = ShopCart()
+    #             data.user_id = current_user.id
+    #             data.product_id = id
+    #             data.quantity = form.cleaned_data['quantity']
+    #             data.save()
+    #     messages.success(request, "Product added to Shopcart")
+    #     return HttpResponseRedirect(url)
 
-    else:  # if there's no post
-        if control == 1:  # update shopcart
-            data = ShopCart.objects.get(product_id=id)
-            data.quantity += 1
-            data.save()
-        else:
-            data = ShopCart()
-            data.user_id = current_user.id
-            data.product_id = id
-            data.quantity = 1
-            data.save()
-        messages.success(request, "Product added to Shopcart")
-        return HttpResponseRedirect(url)
+    # else:  # if there's no post
+    #     if control == 1:  # update shopcart
+    #         data = ShopCart.objects.get(product_id=id)
+    #         data.quantity += 1
+    #         data.save()
+    #     else:
+    #         data = ShopCart()
+    #         data.user_id = current_user.id
+    #         data.product_id = id
+    #         data.quantity = 1
+    #         data.save()
+    #     messages.success(request, "Product added to Shopcart")
+    #     return HttpResponseRedirect(url)
 
 
 @login_required(login_url='/login')
@@ -63,7 +71,8 @@ def shopcart(request):
     category = Category.objects.all()
     current_user = request.user  # access user session info
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
-    request.session['cart_items'] = ShopCart.objects.filter(user_id=current_user.id).count()
+    request.session['cart_items'] = ShopCart.objects.filter(
+        user_id=current_user.id).count()
 
     total = 0
     for cart in shopcart:
@@ -81,43 +90,53 @@ def shopcart(request):
 def addtowishlist(request, id):
     url = request.META.get('HTTP_REFERER')  # get last url
     current_user = request.user  # access user session info
-    schopcart = ShopCart.objects.filter(user_id=current_user.id)
+    # shopcart = ShopCart.objects.filter(user_id=current_user.id)
+    data = Wishlist()
+    data.user_id = current_user.id
+    data.product_id = id
+    data.quantity = 1
+    data.save()
+    messages.success(request, "Product added to Wishlist")
+    return HttpResponseRedirect(url)
 
-    checkproduct = Wishlist.objects.filter(product_id=id)  # check product in shopcart
-    if checkproduct:
-        control = 1  # the product is in the cart
-    else:
-        control = 0  # the product is not in the cart
+    # checkproduct = Wishlist.objects.filter(
+    #     product_id=id)  # check product in shopcart
 
-    if request.method == "POST":
-        form = WishlistForm(request.POST)
-        if form.is_valid():
-            if control == 1:  # update shopcart
-                data = Wishlist.objects.get(product_id=id)
-                data.quantity += form.cleaned_data['quantity']
-                data.save()  # save data
-            else:
-                data = Wishlist()
-                data.user_id = current_user.id
-                data.product_id = id
-                data.quantity = form.cleaned_data['quantity']
-                data.save()
-        messages.success(request, "Product added to Wishlist")
-        return HttpResponseRedirect(url)
+    # if len(checkproduct) > 0:
+    #     control = 1  # the product is in the cart
 
-    else:  # if there's no post
-        if control == 1:  # update shopcart
-            data = Wishlist.objects.get(product_id=id)
-            data.quantity += 1
-            data.save()
-        else:
-            data = Wishlist()
-            data.user_id = current_user.id
-            data.product_id = id
-            data.quantity = 1
-            data.save()
-        messages.success(request, "Product added to Wishlist")
-        return HttpResponseRedirect(url)
+    # else:
+    #     control = 0  # the product is not in the cart
+
+    # if request.method == "POST":
+
+    #     form = WishlistForm(request.POST)
+    #     if form.is_valid():
+
+    #         if control == 1:  # update shopcart
+    #             data = Wishlist.objects.get(product_id=id)
+    #             data.quantity += form.cleaned_data['quantity']
+    #             data.save()  # save data
+    #         else:
+    #             data = Wishlist()
+    #             data.user_id = current_user.id
+    #             data.product_id = id
+    #             data.quantity = form.cleaned_data['quantity']
+    #             data.save()
+    #     messages.success(request, "Product added to Wishlist")
+    #     return HttpResponseRedirect(url)
+
+    # else:  # if there's no post
+    #     if control == 1:  # update shopcart
+    #         data = Wishlist.objects.get(product_id=id)
+    #         data.quantity += 1
+    #         data.save()
+    #     else:
+    #         data = Wishlist()
+    #         data.user_id = current_user.id
+    #         data.product_id = id
+    #         data.quantity += 1
+    # data.save()
 
 
 @login_required(login_url='/login')
@@ -126,7 +145,8 @@ def wishlist(request):
     category = Category.objects.all()
     current_user = request.user  # access user session info
     wishlist = Wishlist.objects.filter(user_id=current_user.id)
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
 
     shopcart = ShopCart.objects.filter(user_id=current_user.id)
 
@@ -146,8 +166,10 @@ def wishlist(request):
 def deletefromcart(request, id):
     ShopCart.objects.filter(id=id).delete()
     current_user = request.user
-    request.session['cart_items'] = ShopCart.objects.filter(user_id=current_user.id).count()
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['cart_items'] = ShopCart.objects.filter(
+        user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
     messages.success(request, "Item Deleted From ShopCart")
     return HttpResponseRedirect('/shopcart')
 
@@ -157,7 +179,8 @@ def orderproduct(request):
     category = Category.objects.all()
     current_user = request.user
     schopcart = ShopCart.objects.filter(user_id=current_user.id)
-    request.session['wish_items'] = Wishlist.objects.filter(user_id=current_user.id).count()
+    request.session['wish_items'] = Wishlist.objects.filter(
+        user_id=current_user.id).count()
     # profile = UserProfile.objects.get(user_id=current_user.id)
     total = 0
     for cart in schopcart:
@@ -199,9 +222,11 @@ def orderproduct(request):
                 product.save()
                 # **********************<>*********************
 
-            ShopCart.objects.filter(user_id=current_user.id).delete()  # clear & delete shopcart
+            # clear & delete shopcart
+            ShopCart.objects.filter(user_id=current_user.id).delete()
             request.session['cart_items'] = 0
-            messages.success(request, "Your Order has been completed. Thank You!")
+            messages.success(
+                request, "Your Order has been completed. Thank You!")
             return render(request, 'order_complete.html',
                           {'ordercode': ordercode, 'category': category, 'schopcart': schopcart})
 
