@@ -103,21 +103,79 @@
                                         <div class="product__rating">
                                             <div class="single-review">
 
+
                                                 <div class="product-rating review-rating pull-right"
                                                     style="font-size:12px">
-                                                    <i
-                                                        class="fa fa-star{% if featured.avaregereview < 1%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if featured.avaregereview < 2%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if featured.avaregereview < 3%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if featured.avaregereview < 4%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if featured.avaregereview < 5%}-o empty{% endif%}"></i>
-                                                    {{ featured.avaregereview |stringformat:".2f"}}
-                                                    <i class="product-card__rating-legend" style="color:#0e8eb3"> {{
-                                                        featured.countreview }} Review(s)</i>
+                                                    {% if featured.avaregereview < 1 %} <i class="empty fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty fa fa-star">
+                                                        </i>
+
+
+
+                                                        {% elif featured.avaregereview < 2 %} <i class="fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+                                                            <i class="empty  fa fa-star">
+                                                            </i>
+                                                            <i class="empty  fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+
+
+                                                            {% elif featured.avaregereview < 3 %} <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+
+
+
+                                                                {% elif featured.avaregereview < 4 %} <i
+                                                                    class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="empty fa-star">
+                                                                    </i>
+                                                                    <i class="empty fa fa-star">
+                                                                    </i>
+
+
+
+                                                                    {% elif featured.avaregereview < 5 %} <i
+                                                                        class="fa fa-star"></i>
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="empty fa fa-star">
+                                                                        </i>
+                                                                        {% endif %}
+
+
+                                                                        {{ featured.avaregereview |stringformat:".2f"}}
+                                                                        <i class="product-card__rating-legend"
+                                                                            style="color:#0e8eb3"> {{
+                                                                            featured.countreview }} Review(s)</i>
                                                 </div>
 
                                             </div>
@@ -192,7 +250,8 @@
                 {% for single in singleproduct %}
                 <div class="block-products__featured-item">
                     <div class="product-card product-card--hidden-actions">
-                        <button class="product-card__quickview" type="button">
+                        <button class="product-card__quickview" type="button" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
                             <svg width="16px" height="16px">
                                 <use xlink:href="static/images/sprite.svg#quickview-16"></use>
                             </svg>
@@ -216,19 +275,74 @@
                                         <div class="single-review">
 
                                             <div class="product-rating review-rating pull-right" style="font-size:12px">
-                                                <i
-                                                    class="fa fa-star{% if single.avaregereview < 1%}-o empty{% endif%}"></i>
-                                                <i
-                                                    class="fa fa-star{% if single.avaregereview < 2%}-o empty{% endif%}"></i>
-                                                <i
-                                                    class="fa fa-star{% if single.avaregereview < 3%}-o empty{% endif%}"></i>
-                                                <i
-                                                    class="fa fa-star{% if single.avaregereview < 4%}-o empty{% endif%}"></i>
-                                                <i
-                                                    class="fa fa-star{% if single.avaregereview < 5%}-o empty{% endif%}"></i>
-                                                {{ single.avaregereview |stringformat:".2f"}}
-                                                <i class="product-card__rating-legend" style="color:#0e8eb3">{{
-                                                    single.countreview }} Review(s)</i>
+                                                {% if single.avaregereview < 1 %} <i class="empty fa fa-star">
+                                                    </i>
+                                                    <i class="empty  fa fa-star">
+                                                    </i>
+                                                    <i class="empty  fa fa-star">
+                                                    </i>
+                                                    <i class="empty  fa fa-star">
+                                                    </i>
+                                                    <i class="empty fa fa-star">
+                                                    </i>
+
+
+
+                                                    {% elif single.avaregereview < 2 %} <i class="fa fa-star">
+                                                        </i>
+                                                        <i class="empty fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty fa fa-star">
+                                                        </i>
+
+
+                                                        {% elif single.avaregereview < 3 %} <i class="fa fa-star">
+                                                            </i>
+                                                            <i class="fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+
+
+
+                                                            {% elif single.avaregereview < 4 %} <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+
+
+
+                                                                {% elif single.avaregereview < 5 %} <i
+                                                                    class="fa fa-star"></i>
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="empty fa fa-star">
+                                                                    </i>
+                                                                    {% endif %}
+
+                                                                    {{ single.avaregereview |stringformat:".2f"}}
+                                                                    <i class="product-card__rating-legend"
+                                                                        style="color:#0e8eb3">{{
+                                                                        single.countreview }} Review(s)</i>
                                             </div>
 
                                         </div>
@@ -299,19 +413,74 @@
                                         <div class="single-review">
 
                                             <div class="product-rating review-rating pull-right" style="font-size:12px">
-                                                <i
-                                                    class="fa fa-star{% if best.avaregereview < 1%}-o empty{% endif%}"></i>
-                                                <i
-                                                    class="fa fa-star{% if best.avaregereview < 2%}-o empty{% endif%}"></i>
-                                                <i
-                                                    class="fa fa-star{% if best.avaregereview < 3%}-o empty{% endif%}"></i>
-                                                <i
-                                                    class="fa fa-star{% if best.avaregereview < 4%}-o empty{% endif%}"></i>
-                                                <i
-                                                    class="fa fa-star{% if best.avaregereview < 5%}-o empty{% endif%}"></i>
-                                                {{ best.avaregereview |stringformat:".2f"}}
-                                                <i class="product-card__rating-legend" style="color:#0e8eb3">{{
-                                                    best.countreview }} Review(s)</i>
+                                                {% if best.avaregereview < 1 %} <i class="empty fa fa-star">
+                                                    </i>
+                                                    <i class="empty  fa fa-star">
+                                                    </i>
+                                                    <i class="empty  fa fa-star">
+                                                    </i>
+                                                    <i class="empty  fa fa-star">
+                                                    </i>
+                                                    <i class="empty fa fa-star">
+                                                    </i>
+
+
+
+                                                    {% elif best.avaregereview < 2 %} <i class="fa fa-star">
+                                                        </i>
+                                                        <i class="empty fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty fa fa-star">
+                                                        </i>
+
+
+                                                        {% elif best.avaregereview < 3 %} <i class="fa fa-star">
+                                                            </i>
+                                                            <i class="fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+
+
+
+                                                            {% elif best.avaregereview < 4 %} <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+
+
+
+                                                                {% elif best.avaregereview < 5 %} <i class="fa fa-star">
+                                                                    </i>
+                                                                    </i>
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="empty fa fa-star">
+                                                                    </i>
+                                                                    {% endif %}
+                                                                    {{ best.avaregereview |stringformat:".2f"}}
+                                                                    <i class="product-card__rating-legend"
+                                                                        style="color:#0e8eb3">{{
+                                                                        best.countreview }} Review(s)</i>
                                             </div>
 
                                         </div>
@@ -424,19 +593,76 @@
 
                                                 <div class="product-rating review-rating pull-right"
                                                     style="font-size:12px">
-                                                    <i
-                                                        class="fa fa-star{% if newarrival.avaregereview < 1%}{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if newarrival.avaregereview < 2%}{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if newarrival.avaregereview < 3%}{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if newarrival.avaregereview < 4%}{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if newarrival.avaregereview < 5%}{% endif%}"></i>
-                                                    {{ newarrival.avaregereview |stringformat:".2f"}}
-                                                    <i class="product-card__rating-legend" style="color:#0e8eb3">{{
-                                                        newarrival.countreview }} Review(s)</i>
+                                                    {% if newarrival.avaregereview < 1 %} <i class="empty fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty fa fa-star">
+                                                        </i>
+
+
+
+                                                        {% elif newarrival.avaregereview < 2 %} <i class="fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+                                                            <i class="empty  fa fa-star">
+                                                            </i>
+                                                            <i class="empty  fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+
+
+                                                            {% elif newarrival.avaregereview < 3 %} <i
+                                                                class="fa fa-star">
+                                                                </i>
+                                                                <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+
+
+
+                                                                {% elif newarrival.avaregereview < 4 %} <i
+                                                                    class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="empty fa-star">
+                                                                    </i>
+                                                                    <i class="empty fa fa-star">
+                                                                    </i>
+
+
+
+                                                                    {% elif newarrival.avaregereview < 5 %} <i
+                                                                        class="fa fa-star"></i>
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="empty fa fa-star">
+                                                                        </i>
+                                                                        {% endif %}
+                                                                        {{ newarrival.avaregereview
+                                                                        |stringformat:".2f"}}
+                                                                        <i class="product-card__rating-legend"
+                                                                            style="color:#0e8eb3">{{
+                                                                            newarrival.countreview }} Review(s)</i>
                                                 </div>
 
                                             </div>
@@ -539,19 +765,74 @@
 
                                                 <div class="product-rating review-rating pull-right"
                                                     style="font-size:12px">
-                                                    <i
-                                                        class="fa fa-star{% if top.avaregereview < 1%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if top.avaregereview < 2%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if top.avaregereview < 3%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if top.avaregereview < 4%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if top.avaregereview < 5%}-o empty{% endif%}"></i>
-                                                    {{ top.avaregereview |stringformat:".2f"}}
-                                                    <i class="product-card__rating-legend" style="color:#0e8eb3">{{
-                                                        top.countreview }} Review(s)</i>
+                                                    {% if top.avaregereview < 1 %} <i class="empty fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty fa fa-star">
+                                                        </i>
+
+
+
+                                                        {% elif top.avaregereview < 2 %} <i class="fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+                                                            <i class="empty  fa fa-star">
+                                                            </i>
+                                                            <i class="empty  fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+
+
+                                                            {% elif top.avaregereview < 3 %} <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+
+
+
+                                                                {% elif top.avaregereview < 4 %} <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="empty fa-star">
+                                                                    </i>
+                                                                    <i class="empty fa fa-star">
+                                                                    </i>
+
+
+
+                                                                    {% elif top.avaregereview < 5 %} <i
+                                                                        class="fa fa-star"></i>
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="empty fa fa-star">
+                                                                        </i>
+                                                                        {% endif %}
+
+                                                                        {{ top.avaregereview |stringformat:".2f"}}
+                                                                        <i class="product-card__rating-legend"
+                                                                            style="color:#0e8eb3">{{
+                                                                            top.countreview }} Review(s)</i>
                                                 </div>
 
                                             </div>
@@ -622,19 +903,74 @@
 
                                                 <div class="product-rating review-rating pull-right"
                                                     style="font-size:12px">
-                                                    <i
-                                                        class="fa fa-star{% if special.avaregereview < 1%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if special.avaregereview < 2%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if special.avaregereview < 3%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if special.avaregereview < 4%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if special.avaregereview < 5%}-o empty{% endif%}"></i>
-                                                    {{ special.avaregereview |stringformat:".2f"}}
-                                                    <i class="product-card__rating-legend" style="color:#0e8eb3">{{
-                                                        special.countreview }} Review(s)</i>
+                                                    {% if special.avaregereview < 1 %} <i class="empty fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty fa fa-star">
+                                                        </i>
+
+
+
+                                                        {% elif special.avaregereview < 2 %} <i class="fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+                                                            <i class="empty  fa fa-star">
+                                                            </i>
+                                                            <i class="empty  fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+
+
+                                                            {% elif special.avaregereview < 3 %} <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+
+
+
+                                                                {% elif special.avaregereview < 4 %} <i
+                                                                    class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="empty fa-star">
+                                                                    </i>
+                                                                    <i class="empty fa fa-star">
+                                                                    </i>
+
+
+
+                                                                    {% elif special.avaregereview < 5 %} <i
+                                                                        class="fa fa-star"></i>
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="empty fa fa-star">
+                                                                        </i>
+                                                                        {% endif %}
+                                                                        {{ special.avaregereview |stringformat:".2f"}}
+                                                                        <i class="product-card__rating-legend"
+                                                                            style="color:#0e8eb3">{{
+                                                                            special.countreview }} Review(s)</i>
                                                 </div>
 
                                             </div>
@@ -702,19 +1038,74 @@
 
                                                 <div class="product-rating review-rating pull-right"
                                                     style="font-size:12px">
-                                                    <i
-                                                        class="fa fa-star{% if bottom.avaregereview < 1%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if bottom.avaregereview < 2%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if bottom.avaregereview < 3%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if bottom.avaregereview < 4%}-o empty{% endif%}"></i>
-                                                    <i
-                                                        class="fa fa-star{% if bottom.avaregereview < 5%}-o empty{% endif%}"></i>
-                                                    {{ bottom.avaregereview |stringformat:".2f"}}
-                                                    <i class="product-card__rating-legend" style="color:#0e8eb3">{{
-                                                        bottom.countreview }} Review(s)</i>
+                                                    {% if bottom.avaregereview < 1 %} <i class="empty fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty  fa fa-star">
+                                                        </i>
+                                                        <i class="empty fa fa-star">
+                                                        </i>
+
+
+
+                                                        {% elif bottom.avaregereview < 2 %} <i class="fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+                                                            <i class="empty  fa fa-star">
+                                                            </i>
+                                                            <i class="empty  fa fa-star">
+                                                            </i>
+                                                            <i class="empty fa fa-star">
+                                                            </i>
+
+
+                                                            {% elif bottom.avaregereview < 3 %} <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+                                                                <i class="empty fa fa-star">
+                                                                </i>
+
+
+
+                                                                {% elif bottom.avaregereview < 4 %} <i
+                                                                    class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="fa fa-star">
+                                                                    </i>
+                                                                    <i class="empty fa-star">
+                                                                    </i>
+                                                                    <i class="empty fa fa-star">
+                                                                    </i>
+
+
+
+                                                                    {% elif bottom.avaregereview < 5 %} <i
+                                                                        class="fa fa-star"></i>
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="fa fa-star">
+                                                                        </i>
+                                                                        <i class="empty fa fa-star">
+                                                                        </i>
+                                                                        {% endif %}
+                                                                        {{ bottom.avaregereview |stringformat:".2f"}}
+                                                                        <i class="product-card__rating-legend"
+                                                                            style="color:#0e8eb3">{{
+                                                                            bottom.countreview }} Review(s)</i>
                                                 </div>
 
                                             </div>
@@ -754,12 +1145,7 @@
             </div>
         </div>
     </div>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Launch demo modal
-    </button>
-
-    <!-- Modal -->
+    {%include "modal.html"%}
     <!-- .block-product-columns / end -->
 
     <!-- site__body / end -->

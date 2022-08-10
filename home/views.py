@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 import json
 
 from django.contrib import messages
@@ -24,6 +25,43 @@ def api(request):
     serializer = SettingsSerializer(settings, many=True)
     context = json.loads(json.dumps(serializer.data))
     return render(request, 'header-demo.html', {"data": context})
+
+
+def ajax_search(request):
+    if request.method == 'POST':  # check post
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['query']  # get form input data
+            catid = form.cleaned_data['catid']
+            if catid == 0:
+                # SELECT * FROM product WHERE title LIKE '%query%'
+                products = Product.objects.filter(title__icontains=query)
+            else:
+                products = Product.objects.filter(
+                    title__icontains=query, category_id=catid)
+
+            category = Category.objects.all()
+            setting = Setting.objects.get(pk=1)
+            current_user = request.user
+            shopcart = ShopCart.objects.filter(user_id=current_user.id)
+            request.session['wish_items'] = Wishlist.objects.filter(
+                user_id=current_user.id).count()
+
+            context = {
+                'products': products,
+                'setting': setting,
+                'query': query,
+                'category': category,
+                'shopcart': shopcart,
+            }
+            return render(request, 'search_products.html', context)
+
+    return HttpResponseRedirect('/')
+
+    # data = dict()
+    # data["foo"] = "bar"
+    # data["username"] = User.objects.get(id=request["id"]).username
+    # return JsonResponse(data)
 
 
 def index(request):
@@ -195,18 +233,14 @@ def search(request):
 
 
 def search_auto(request):
-    if request.is_ajax():
-        q = request.GET.get('term', '')
-        products = Product.objects.filter(title__icontains=q)
-        results = []
-        for prod in products:
-            product_json = {}
-            product_json = prod.title
-            results.append(product_json)
-        data = json.dumps(results)
-    else:
-        data = 'fail'
-
+    q = request.GET.get('id', '')
+    products = Product.objects.filter(title__icontains=q)
+    results = []
+    for prod in products:
+        product_json = {}
+        product_json = prod.title
+        results.append(product_json)
+    data = json.dumps(results)
     mimetype = 'application/json'
 
     return HttpResponse(data, mimetype)
@@ -217,6 +251,7 @@ def product_details(request, id, slug):
     category = Category.objects.all()
     product = Product.objects.get(pk=id)
     images = Images.objects.filter(product_id=id)
+    product_featured = Product.objects.all().order_by('?')[:16]
 
     # query = request.GET.get('q')
     comments = Comment.objects.filter(product_id=id, status="True")
@@ -233,6 +268,7 @@ def product_details(request, id, slug):
         'images': images,
         'comments': comments,
         'shopcart': shopcart,
+        'product_featured': product_featured,
     }
 
     return render(request, 'product_details.html', context)
